@@ -35,22 +35,22 @@ I was searching other tools to do this job but I didn't found it, so after analy
 ## Examples of python usage
 - Get tweets by username
 ``` python
-    tweetCriteria = got.manager.TweetCriteria().setUsername('barackobama').setMaxTweets(1)
-	  tweet = got.manager.TweetManager.getTweets(tweetCriteria)[0]
+	tweetCriteria = got.manager.TweetCriteria().setUsername('barackobama').setMaxTweets(1)
+	tweet = got.manager.TweetManager.getTweets(tweetCriteria)[0]
 	  
     print tweet.text
 ```    
 - Get tweets by query search
 ``` python
-    tweetCriteria = got.manager.TweetCriteria().setQuerySearch('europe refugees').setSince("2015-05-01").setUntil("2015-09-30").setMaxTweets(1)
-	  tweet = got.manager.TweetManager.getTweets(tweetCriteria)[0]
+	tweetCriteria = got.manager.TweetCriteria().setQuerySearch('europe refugees').setSince("2015-05-01").setUntil("2015-09-30").setMaxTweets(1)
+	tweet = got.manager.TweetManager.getTweets(tweetCriteria)[0]
 	  
     print tweet.text
 ```    
 - Get tweets by username and bound dates
 ``` python
-    tweetCriteria = got.manager.TweetCriteria().setUsername("barackobama").setSince("2015-09-10").setUntil("2015-09-12").setMaxTweets(1)
-  	tweet = got.manager.TweetManager.getTweets(tweetCriteria)[0]
+	tweetCriteria = got.manager.TweetCriteria().setUsername("barackobama").setSince("2015-09-10").setUntil("2015-09-12").setMaxTweets(1)
+	tweet = got.manager.TweetManager.getTweets(tweetCriteria)[0]
 	  
     print tweet.text
 ```    
