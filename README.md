@@ -58,16 +58,16 @@ I was searching other tools to do this job but I didn't found it, so after analy
 ## Examples of command-line usage
 - Get help use
 ```
-    python Export.py -h
+    python Exporter.py -h
 ``` 
 - Get tweets by username
 ```
-    python Export.py --username 'barackobama' --maxtweets 1
+    python Exporter.py --username 'barackobama' --maxtweets 1
 ```    
 - Get tweets by query search
 ```
-    python Export.py --querysearch 'europe refugees' --maxtweets 1
+    python Exporter.py --querysearch 'europe refugees' --maxtweets 1
 ```    
 - Get tweets by username and bound dates
 ```
-    python Export.py --username 'barackobama' --since 2015-09-10 --until 2015-09-12 --maxtweets 1
+    python Exporter.py --username 'barackobama' --since 2015-09-10 --until 2015-09-12 --maxtweets 1
