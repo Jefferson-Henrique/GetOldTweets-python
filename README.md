@@ -30,7 +30,7 @@ I was searching other tools to do this job but I didn't found it, so after analy
   
 - **Main:** Examples of how to use.
 
-- **Exporter:** Export twees to a csv file named "output_got.csv".
+- **Exporter:** Export tweets to a csv file named "output_got.csv".
 
 ## Examples of python usage
 - Get tweets by username
