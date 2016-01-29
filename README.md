@@ -70,4 +70,4 @@ I was searching other tools to do this job but I didn't found it, so after analy
 ```    
 - Get tweets by username and bound dates
 ```
-    java -jar got.jar username=barackobama since=2015-09-10 until=2015-09-12 maxtweets=1
+    python Export.py --username 'barackobama' --since 2015-09-10 --until 2015-09-12 --maxtweets 1
