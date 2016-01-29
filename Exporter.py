@@ -41,7 +41,7 @@ def main(argv):
 				tweetCriteria.until = arg
 				
 			elif opt == '--querysearch':
-				tweetCriteria.querysearch = arg
+				tweetCriteria.querySearch = arg
 				
 			elif opt == '--maxtweets':
 				tweetCriteria.maxTweets = int(arg)
