@@ -48,12 +48,12 @@ def main(argv):
 		
 		outputFile = open("output_got.csv", "w+")
 		
-		outputFile.write('username;date;retweets;favorites;text;geo;mentions;hashtags;id;permalink\n')
+		outputFile.write('username;date;retweets;favorites;text;geo;mentions;hashtags;id;permalink')
 		
 		print 'Searching...\n'
 		
 		for t in got.manager.TweetManager.getTweets(tweetCriteria):
-			outputFile.write('%s;%s;%d;%d;"%s";%s;%s;%s;"%s";%s\n' % (t.username, t.date.strftime("%Y-%m-%d %H:%M"), t.retweets, t.favorites, t.text, t.geo, t.mentions, t.hashtags, t.id, t.permalink))
+			outputFile.write('\n%s;%s;%d;%d;"%s";%s;%s;%s;"%s";%s' % (t.username, t.date.strftime("%Y-%m-%d %H:%M"), t.retweets, t.favorites, t.text, t.geo, t.mentions, t.hashtags, t.id, t.permalink))
 		
 		outputFile.close()
 		

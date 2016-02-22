@@ -15,7 +15,10 @@ class TweetManager:
 	
 		while True:
 			json = TweetManager.getJsonReponse(tweetCriteria, refreshCursor)
-			refreshCursor = json['min_position']
+			if len(json['items_html'].strip()) == 0:
+				break
+
+			refreshCursor = json['min_position']			
 			tweets = PyQuery(json['items_html'])('div.js-stream-tweet')
 			
 			if len(tweets) == 0:
@@ -75,9 +78,7 @@ class TweetManager:
 		
 		headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64)'}
 		
-		maxPosition = ''
-		
-		url = url % (urllib.quote(urlGetData), maxPosition)
+		url = url % (urllib.quote(urlGetData), refreshCursor)
 		
 		req = urllib2.Request(url, headers = headers)
 		
@@ -85,7 +86,4 @@ class TweetManager:
 		
 		dataJson = json.loads(jsonResponse)
 		
-		return dataJson
-		
-		
-		
+		return dataJson		
