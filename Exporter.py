@@ -1,4 +1,6 @@
-import sys,getopt,got,datetime
+# -*- coding: utf-8 -*-
+
+import sys,getopt,got,datetime,codecs
 
 def main(argv):
 
@@ -46,21 +48,25 @@ def main(argv):
 			elif opt == '--maxtweets':
 				tweetCriteria.maxTweets = int(arg)
 		
-		outputFile = open("output_got.csv", "w+")
+		outputFile = codecs.open("output_got.csv", "w+", "utf-8")
 		
 		outputFile.write('username;date;retweets;favorites;text;geo;mentions;hashtags;id;permalink')
 		
 		print 'Searching...\n'
 		
-		for t in got.manager.TweetManager.getTweets(tweetCriteria):
-			outputFile.write('\n%s;%s;%d;%d;"%s";%s;%s;%s;"%s";%s' % (t.username, t.date.strftime("%Y-%m-%d %H:%M"), t.retweets, t.favorites, t.text, t.geo, t.mentions, t.hashtags, t.id, t.permalink))
+		def receiveBuffer(tweets):
+			for t in tweets:
+				outputFile.write(('\n%s;%s;%d;%d;"%s";%s;%s;%s;"%s";%s' % (t.username, t.date.strftime("%Y-%m-%d %H:%M"), t.retweets, t.favorites, t.text, t.geo, t.mentions, t.hashtags, t.id, t.permalink)))
+			outputFile.flush();
+			print 'More %d saved on file...\n' % len(tweets)
 		
-		outputFile.close()
-		
-		print 'Done. Output file generated "output_got.csv".'
+		got.manager.TweetManager.getTweets(tweetCriteria, receiveBuffer)
 		
 	except arg:
 		print 'Arguments parser error, try -h' + arg
+	finally:
+		outputFile.close()
+		print 'Done. Output file generated "output_got.csv".'
 
 if __name__ == '__main__':
 	main(sys.argv[1:])

@@ -1,4 +1,4 @@
-import urllib,urllib2,json,re,datetime
+import urllib,urllib2,json,re,datetime,sys
 from .. import models
 from pyquery import PyQuery
 
@@ -8,12 +8,15 @@ class TweetManager:
 		pass
 		
 	@staticmethod
-	def getTweets(tweetCriteria):
+	def getTweets(tweetCriteria, receiveBuffer = None, bufferLength = 100):
 		refreshCursor = ''
 	
 		results = []
+		resultsAux = []
 	
-		while True:
+		active = True
+	
+		while active:
 			json = TweetManager.getJsonReponse(tweetCriteria, refreshCursor)
 			if len(json['items_html'].strip()) == 0:
 				break
@@ -29,7 +32,7 @@ class TweetManager:
 				tweet = models.Tweet()
 				
 				usernameTweet = tweetPQ("span.username.js-action-profile-name b").text();
-				txt = re.sub(r"\s+", " ", re.sub(r"[^\x00-\x7F]", "", tweetPQ("p.js-tweet-text").text()).replace('# ', '#').replace('@ ', '@'));
+				txt = re.sub(r"\s+", " ", tweetPQ("p.js-tweet-text").text().replace('# ', '#').replace('@ ', '@'));
 				retweets = int(tweetPQ("span.ProfileTweet-action--retweet span.ProfileTweet-actionCount").attr("data-tweet-stat-count").replace(",", ""));
 				favorites = int(tweetPQ("span.ProfileTweet-action--favorite span.ProfileTweet-actionCount").attr("data-tweet-stat-count").replace(",", ""));
 				dateSec = int(tweetPQ("small.time span.js-short-timestamp").attr("data-time"));
@@ -53,10 +56,20 @@ class TweetManager:
 				tweet.geo = geo
 				
 				results.append(tweet)
+				resultsAux.append(tweet)
+				
+				if receiveBuffer and len(resultsAux) >= bufferLength:
+					receiveBuffer(resultsAux)
+					resultsAux = []
 				
 				if tweetCriteria.maxTweets > 0 and len(results) >= tweetCriteria.maxTweets:
-					return results
-			
+					active = False
+					break
+					
+		
+		if receiveBuffer and len(resultsAux) > 0:
+			receiveBuffer(resultsAux)
+		
 		return results
 	
 	@staticmethod
@@ -82,7 +95,12 @@ class TweetManager:
 		
 		req = urllib2.Request(url, headers = headers)
 		
-		jsonResponse = urllib2.urlopen(req).read()
+		try:
+			jsonResponse = urllib2.urlopen(req).read()
+		except:
+			print "Twitter weird response. Try to see on browser: https://twitter.com/search?q=%s&src=typd" % urllib.quote(urlGetData)
+			sys.exit()
+			return
 		
 		dataJson = json.loads(jsonResponse)
 		
