@@ -1,4 +1,4 @@
-import urllib,urllib2,json,re,datetime,sys
+import urllib,urllib2,json,re,datetime,sys,cookielib
 from .. import models
 from pyquery import PyQuery
 
@@ -13,11 +13,12 @@ class TweetManager:
 	
 		results = []
 		resultsAux = []
-	
+		cookieJar = cookielib.CookieJar()
+
 		active = True
-	
+
 		while active:
-			json = TweetManager.getJsonReponse(tweetCriteria, refreshCursor)
+			json = TweetManager.getJsonReponse(tweetCriteria, refreshCursor, cookieJar)
 			if len(json['items_html'].strip()) == 0:
 				break
 
@@ -73,7 +74,7 @@ class TweetManager:
 		return results
 	
 	@staticmethod
-	def getJsonReponse(tweetCriteria, refreshCursor):
+	def getJsonReponse(tweetCriteria, refreshCursor, cookieJar):
 		url = "https://twitter.com/i/search/timeline?f=realtime&q=%s&src=typd&max_position=%s"
 		
 		urlGetData = ''
@@ -88,15 +89,25 @@ class TweetManager:
 			
 		if hasattr(tweetCriteria, 'querySearch'):
 			urlGetData += ' ' + tweetCriteria.querySearch
-		
-		headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64)'}
-		
+
 		url = url % (urllib.quote(urlGetData), refreshCursor)
-		
-		req = urllib2.Request(url, headers = headers)
-		
+
+		headers = [
+			('Host', "twitter.com"),
+			('User-Agent', "Mozilla/5.0 (Windows NT 6.1; Win64; x64)"),
+			('Accept', "application/json, text/javascript, */*; q=0.01"),
+			('Accept-Language', "de,en-US;q=0.7,en;q=0.3"),
+			('X-Requested-With', "XMLHttpRequest"),
+			('Referer', url),
+			('Connection', "keep-alive")
+		]
+
+		opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cookieJar))
+		opener.addheaders = headers
+
 		try:
-			jsonResponse = urllib2.urlopen(req).read()
+			response = opener.open(url)
+			jsonResponse = response.read()
 		except:
 			print "Twitter weird response. Try to see on browser: https://twitter.com/search?q=%s&src=typd" % urllib.quote(urlGetData)
 			sys.exit()
