@@ -48,17 +48,17 @@ def main(argv):
 			elif opt == '--maxtweets':
 				tweetCriteria.maxTweets = int(arg)
 		
-		outputFile = codecs.open("output_got.csv", "w+", "utf-8")
+		outputFile = codecs.open("output_got.txt", "w+", "utf-8")
 		
-		outputFile.write('username;date;retweets;favorites;text;geo;mentions;hashtags;id;permalink')
+		outputFile.write('username\tdate\tretweets\tfavorites\ttext\tgeo\tmentions\thashtags\tid\tpermalink')
 		
 		print 'Searching...\n'
 		
 		def receiveBuffer(tweets):
 			for t in tweets:
-				outputFile.write(('\n%s;%s;%d;%d;"%s";%s;%s;%s;"%s";%s' % (t.username, t.date.strftime("%Y-%m-%d %H:%M"), t.retweets, t.favorites, t.text, t.geo, t.mentions, t.hashtags, t.id, t.permalink)))
+				outputFile.write(('\n%s\t%s\t%d\t%d\t"%s"\t%s\t%s\t%s\t"%s"\t%s' % (t.username, t.date.strftime("%Y-%m-%d %H:%M"), t.retweets, t.favorites, t.text, t.geo, t.mentions, t.hashtags, t.id, t.permalink)))
 			outputFile.flush();
-			print 'More %d saved on file...\n' % len(tweets)
+			print '%d more saved on file...\n' % len(tweets)
 		
 		got.manager.TweetManager.getTweets(tweetCriteria, receiveBuffer)
 		
@@ -66,7 +66,7 @@ def main(argv):
 		print 'Arguments parser error, try -h' + arg
 	finally:
 		outputFile.close()
-		print 'Done. Output file generated "output_got.csv".'
+		print 'Done. Output file generated "output_got.txt".'
 
 if __name__ == '__main__':
 	main(sys.argv[1:])
