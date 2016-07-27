@@ -90,6 +90,10 @@ class TweetManager:
 		if hasattr(tweetCriteria, 'querySearch'):
 			urlGetData += ' ' + tweetCriteria.querySearch
 
+		if hasattr(tweetCriteria, 'allTweets'):
+			if tweetCriteria.allTweets:
+				url = "https://twitter.com/i/search/timeline?f=tweets&q=%s&src=typd&max_position=%s"
+
 		url = url % (urllib.quote(urlGetData), refreshCursor)
 
 		headers = [
