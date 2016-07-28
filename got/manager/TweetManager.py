@@ -75,7 +75,7 @@ class TweetManager:
 	
 	@staticmethod
 	def getJsonReponse(tweetCriteria, refreshCursor, cookieJar):
-		url = "https://twitter.com/i/search/timeline?f=realtime&q=%s&src=typd&max_position=%s"
+		url = "https://twitter.com/i/search/timeline?f=tweets&vertical=default&q=%s&src=typd&max_position=%s"
 		
 		urlGetData = ''
 		if hasattr(tweetCriteria, 'username'):
