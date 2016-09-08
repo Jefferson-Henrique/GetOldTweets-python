@@ -26,6 +26,7 @@ I was searching other tools to do this job but I didn't found it, so after analy
   - setSince (str. "yyyy-mm-dd"): A lower bound date to restrict search.
   - setUntil (str. "yyyy-mm-dd"): An upper bound date to restrist search.
   - setQuerySearch (str): A query text to be matched.
+  - setTopTweets (bool): If True only the Top Tweets will be retrieved.
   - setMaxTweets (int): The maximum number of tweets to be retrieved. If this number is unsetted or lower than 1 all possible tweets will be retrieved.
   
 - **Main:** Examples of how to use.
@@ -53,7 +54,15 @@ I was searching other tools to do this job but I didn't found it, so after analy
 	tweet = got.manager.TweetManager.getTweets(tweetCriteria)[0]
 	  
     print tweet.text
-```    
+```
+- Get the last 10 top tweets by username
+``` python
+	tweetCriteria = got.manager.TweetCriteria().setUsername("barackobama").setTopTweets(True).setMaxTweets(10)
+	// first one
+	tweet = got.manager.TweetManager.getTweets(tweetCriteria)[0]
+	  
+    print tweet.text
+```
 
 ## Examples of command-line usage
 - Get help use
@@ -71,3 +80,8 @@ I was searching other tools to do this job but I didn't found it, so after analy
 - Get tweets by username and bound dates
 ```
     python Exporter.py --username 'barackobama' --since 2015-09-10 --until 2015-09-12 --maxtweets 1
+```
+- Get the last 10 top tweets by username
+```
+    python Exporter.py --username 'barackobama' --maxtweets 10 --toptweets
+```

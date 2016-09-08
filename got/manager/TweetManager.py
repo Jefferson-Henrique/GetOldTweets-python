@@ -14,6 +14,9 @@ class TweetManager:
 		results = []
 		resultsAux = []
 		cookieJar = cookielib.CookieJar()
+		
+		if (tweetCriteria.username.startswith("\'") or tweetCriteria.username.startswith("\"")) and (tweetCriteria.username.endswith("\'") or tweetCriteria.username.endswith("\"")):
+			tweetCriteria.username = tweetCriteria.username[1:-1]
 
 		active = True
 
@@ -75,7 +78,7 @@ class TweetManager:
 	
 	@staticmethod
 	def getJsonReponse(tweetCriteria, refreshCursor, cookieJar):
-		url = "https://twitter.com/i/search/timeline?f=realtime&q=%s&src=typd&max_position=%s"
+		url = "https://twitter.com/i/search/timeline?f=tweets&q=%s&src=typd&max_position=%s"
 		
 		urlGetData = ''
 		if hasattr(tweetCriteria, 'username'):
@@ -90,9 +93,9 @@ class TweetManager:
 		if hasattr(tweetCriteria, 'querySearch'):
 			urlGetData += ' ' + tweetCriteria.querySearch
 
-		if hasattr(tweetCriteria, 'allTweets'):
-			if tweetCriteria.allTweets:
-				url = "https://twitter.com/i/search/timeline?f=tweets&q=%s&src=typd&max_position=%s"
+		if hasattr(tweetCriteria, 'topTweets'):
+			if tweetCriteria.topTweets:
+				url = "https://twitter.com/i/search/timeline?q=%s&src=typd&max_position=%s"
 
 		url = url % (urllib.quote(urlGetData), refreshCursor)
 

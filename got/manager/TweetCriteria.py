@@ -23,6 +23,6 @@ class TweetCriteria:
 		self.maxTweets = maxTweets
 		return self
 
-	def setAllTweets(self, allTweets=False):
-		self.allTweets = allTweets
+	def setTopTweets(self, topTweets):
+		self.topTweets = topTweets
 		return self
