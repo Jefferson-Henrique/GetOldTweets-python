@@ -58,7 +58,7 @@ I was searching other tools to do this job but I didn't found it, so after analy
 - Get the last 10 top tweets by username
 ``` python
 	tweetCriteria = got.manager.TweetCriteria().setUsername("barackobama").setTopTweets(True).setMaxTweets(10)
-	// first one
+	# first one
 	tweet = got.manager.TweetManager.getTweets(tweetCriteria)[0]
 	  
     print tweet.text
