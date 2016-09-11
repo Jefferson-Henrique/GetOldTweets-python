@@ -18,16 +18,16 @@ def main(argv):
 
  \nExamples:
  # Example 1 - Get tweets by username [barackobama]
- python Exporter.py --username 'barackobama' --maxtweets 1\n
+ python Exporter.py --username "barackobama" --maxtweets 1\n
 
  # Example 2 - Get tweets by query search [europe refugees]
- python Exporter.py --querysearch 'europe refugees' --maxtweets 1\n
+ python Exporter.py --querysearch "europe refugees" --maxtweets 1\n
 
  # Example 3 - Get tweets by username and bound dates [barackobama, '2015-09-10', '2015-09-12']
- python Exporter.py --username 'barackobama' --since 2015-09-10 --until 2015-09-12 --maxtweets 1\n
+ python Exporter.py --username "barackobama" --since 2015-09-10 --until 2015-09-12 --maxtweets 1\n
  
  # Example 4 - Get the last 10 top tweets by username
- python Exporter.py --username 'barackobama' --maxtweets 10 --toptweets\n"""
+ python Exporter.py --username "barackobama" --maxtweets 10 --toptweets\n"""
 		return
  
 	try:

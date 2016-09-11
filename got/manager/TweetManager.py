@@ -15,7 +15,7 @@ class TweetManager:
 		resultsAux = []
 		cookieJar = cookielib.CookieJar()
 		
-		if (tweetCriteria.username.startswith("\'") or tweetCriteria.username.startswith("\"")) and (tweetCriteria.username.endswith("\'") or tweetCriteria.username.endswith("\"")):
+		if hasattr(tweetCriteria, 'username') and (tweetCriteria.username.startswith("\'") or tweetCriteria.username.startswith("\"")) and (tweetCriteria.username.endswith("\'") or tweetCriteria.username.endswith("\"")):
 			tweetCriteria.username = tweetCriteria.username[1:-1]
 
 		active = True
