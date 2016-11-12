@@ -56,6 +56,9 @@ def main(argv):
 			
 			elif opt == '--near':
 				tweetCriteria.near = '"' + arg + '"'
+			
+			elif opt == '--within':
+				tweetCriteria.within = '"' + arg + '"'
 				
 		
 		outputFile = codecs.open("output_got.csv", "w+", "utf-8")

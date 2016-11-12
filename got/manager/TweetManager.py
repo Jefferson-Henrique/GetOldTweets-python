@@ -81,24 +81,31 @@ class TweetManager:
 		url = "https://twitter.com/i/search/timeline?f=tweets&q=%s&src=typd&max_position=%s"
 		
 		urlGetData = ''
+		
 		if hasattr(tweetCriteria, 'username'):
 			urlGetData += ' from:' + tweetCriteria.username
-			
+		
+		if hasattr(tweetCriteria, 'querySearch'):
+			urlGetData += ' ' + tweetCriteria.querySearch
+		
+		if hasattr(tweetCriteria, 'near'):
+			urlGetData += "&near:" + tweetCriteria.near + " within:" + tweetCriteria.within
+		
 		if hasattr(tweetCriteria, 'since'):
 			urlGetData += ' since:' + tweetCriteria.since
 			
 		if hasattr(tweetCriteria, 'until'):
 			urlGetData += ' until:' + tweetCriteria.until
-			
-		if hasattr(tweetCriteria, 'querySearch'):
-			urlGetData += ' ' + tweetCriteria.querySearch
+		
 
 		if hasattr(tweetCriteria, 'topTweets'):
 			if tweetCriteria.topTweets:
 				url = "https://twitter.com/i/search/timeline?q=%s&src=typd&max_position=%s"
-
+		
+		
+		
 		url = url % (urllib.quote(urlGetData), refreshCursor)
-
+		print url
 		headers = [
 			('Host', "twitter.com"),
 			('User-Agent', "Mozilla/5.0 (Windows NT 6.1; Win64; x64)"),
