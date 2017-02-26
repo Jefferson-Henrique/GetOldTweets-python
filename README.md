@@ -8,6 +8,8 @@ I was searching other tools to do this job but I didn't found it, so after analy
 ##Prerequisites
 This package assumes using Python 2.x. The Python3 "got3" folder is maintained as experimental and is not supported. To use that, the primary files (e.g. main.py and Exporter.py) will need to change "import got" to "import got3"
 
+Expected package dependencies are listed in the "requirements.txt" file for PIP
+
 ## Components
 - **Tweet:** Model class to give some informations about a specific tweet.
   - id (str)
