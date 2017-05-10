@@ -15,6 +15,7 @@ def main(argv):
        until: The upper bound date (yyyy-mm-aa)
  querysearch: A query text to be matched
    maxtweets: The maximum number of tweets to retrieve
+   filepath: Output file path
 
  \nExamples:
  # Example 1 - Get tweets by username [barackobama]
@@ -27,15 +28,18 @@ def main(argv):
  python Exporter.py --username "barackobama" --since 2015-09-10 --until 2015-09-12 --maxtweets 1\n
  
  # Example 4 - Get the last 10 top tweets by username
- python Exporter.py --username "barackobama" --maxtweets 10 --toptweets\n"""
+ python Exporter.py --username "barackobama" --maxtweets 10 --toptweets\n
+ 
+ # Example 5 - Specify a file path for the results (default filepath is "output_got.csv"
+ python Exporter.py --username "barackobama" maxtweets 10 --toptweets --filepath "barack10TopTweets.csv" """
 		return
  
 	try:
-		opts, args = getopt.getopt(argv, "", ("username=", "since=", "until=", "querysearch=", "toptweets", "maxtweets="))
+		opts, args = getopt.getopt(argv, "", ("username=", "since=", "until=", "querysearch=", "toptweets", "maxtweets=", "filepath="))
 		
 		tweetCriteria = got.manager.TweetCriteria()
 		
-		for opt,arg in opts:
+		for opt, arg in opts:
 			if opt == '--username':
 				tweetCriteria.username = arg
 				
@@ -53,12 +57,19 @@ def main(argv):
 				
 			elif opt == '--maxtweets':
 				tweetCriteria.maxTweets = int(arg)
-				
-		
-		outputFile = codecs.open("output_got.csv", "w+", "utf-8")
-		
+
+                        elif opt == '--filepath':
+                                out_filepath = arg
+
+                try:
+                    out_filepath
+                except NameError:
+                    out_filepath = "output_got.csv"
+
+		outputFile = codecs.open(out_filepath, "w+", "utf-8")
+
 		outputFile.write('username;date;retweets;favorites;text;geo;mentions;hashtags;id;permalink')
-		
+
 		print 'Searching...\n'
 		
 		def receiveBuffer(tweets):
@@ -73,7 +84,7 @@ def main(argv):
 		print 'Arguments parser error, try -h' + arg
 	finally:
 		outputFile.close()
-		print 'Done. Output file generated "output_got.csv".'
+		print 'Done. Output file generated "%s".' % out_filepath
 
 if __name__ == '__main__':
 	main(sys.argv[1:])
