@@ -6,9 +6,12 @@ Twitter Official API has the bother limitation of time constraints, you can't ge
 I was searching other tools to do this job but I didn't found it, so after analyze how Twitter Search through browser works I understand its flow. Basically when you enter on Twitter page a scroll loader starts, if you scroll down you start to get more and more tweets, all through calls to a JSON provider. After mimic we get the best advantage of Twitter Search on browsers, it can search the deepest oldest tweets.
 
 ##Prerequisites
-This package assumes using Python 2.x. The Python3 "got3" folder is maintained as experimental and is not supported. To use that, the primary files (e.g. main.py and Exporter.py) will need to change "import got" to "import got3"
+This package assumes using Python 2.x. The Python3 "got3" folder is maintained as experimental and is not officially supported.
 
-Expected package dependencies are listed in the "requirements.txt" file for PIP
+Expected package dependencies are listed in the "requirements.txt" file for PIP, you need to run the following command to get dependencies:
+```
+pip install -r requirements.txt
+```
 
 ## Components
 - **Tweet:** Model class to give some informations about a specific tweet.
@@ -32,6 +35,8 @@ Expected package dependencies are listed in the "requirements.txt" file for PIP
   - setUntil (str. "yyyy-mm-dd"): An upper bound date to restrist search.
   - setQuerySearch (str): A query text to be matched.
   - setTopTweets (bool): If True only the Top Tweets will be retrieved.
+  - setNear(str): A reference location area from where tweets were generated.
+  - setWithin (str): A distance radius from "near" location (e.g. 15mi).
   - setMaxTweets (int): The maximum number of tweets to be retrieved. If this number is unsetted or lower than 1 all possible tweets will be retrieved.
   
 - **Main:** Examples of how to use.

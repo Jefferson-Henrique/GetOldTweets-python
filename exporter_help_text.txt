@@ -1,0 +1,23 @@
+To use this script you can pass the following attributes:
+    username: Username of a specific twitter account (without @)
+       since: The lower bound date (yyyy-mm-aa)
+       until: The upper bound date (yyyy-mm-aa)
+ querysearch: A query text to be matched
+        near: A reference location area from where tweets were generated
+      within: A distance radius from "near" location (e.g. 15mi)
+   maxtweets: The maximum number of tweets to retrieve
+   toptweets: Only the tweets provided as top tweets by Twitter (no parameters required)
+      output: A filename to export the results (default is "output_got.csv")
+
+Examples:
+# Example 1 - Get tweets by username [barackobama]
+python Exporter.py --username "barackobama" --maxtweets 1
+
+# Example 2 - Get tweets by query search [europe refugees]
+python Exporter.py --querysearch "europe refugees" --maxtweets 1
+
+# Example 3 - Get tweets by username and bound dates [barackobama, '2015-09-10', '2015-09-12']
+python Exporter.py --username "barackobama" --since 2015-09-10 --until 2015-09-12 --maxtweets 1
+
+# Example 4 - Get the last 10 top tweets by username
+python Exporter.py --username "barackobama" --maxtweets 10 --toptweets

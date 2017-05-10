@@ -28,10 +28,10 @@ class TweetCriteria:
 		self.topTweets = topTweets
 		return self
 	
-	def setLocation(self, near):
+	def setNear(self, near):
 		self.near = near
 		return self
 
-	def setDistance(self, within):
+	def setWithin(self, within):
 		self.within = within
 		return self
