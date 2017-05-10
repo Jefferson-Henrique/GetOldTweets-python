@@ -31,7 +31,7 @@ def main(argv):
 		return
  
 	try:
-		opts, args = getopt.getopt(argv, "", ("username=", "since=", "until=", "querysearch=", "toptweets", "maxtweets="))
+		opts, args = getopt.getopt(argv, "", ("username=", "near=","within=","since=", "until=", "querysearch=", "toptweets", "maxtweets="))
 		
 		tweetCriteria = got.manager.TweetCriteria()
 		
@@ -53,6 +53,12 @@ def main(argv):
 				
 			elif opt == '--maxtweets':
 				tweetCriteria.maxTweets = int(arg)
+			
+			elif opt == '--near':
+				tweetCriteria.near = '"' + arg + '"'
+			
+			elif opt == '--within':
+				tweetCriteria.within = '"' + arg + '"'
 				
 		
 		outputFile = codecs.open("output_got.csv", "w+", "utf-8")
