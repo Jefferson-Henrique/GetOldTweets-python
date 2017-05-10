@@ -20,14 +20,17 @@ class TweetManager:
 		while active:
 			json = TweetManager.getJsonReponse(tweetCriteria, refreshCursor, cookieJar)
 			if not json:  # An exception in getJsonResponse might raise a TypeError,  where json is NoneType.
+				active = False
 				break
 			if len(json['items_html'].strip()) == 0:
+				active = False
 				break
 
 			refreshCursor = json['min_position']			
 			tweets = PyQuery(json['items_html'])('div.js-stream-tweet')
 			
 			if len(tweets) == 0:
+				active = False
 				break
 			
 			for tweetHTML in tweets:
