@@ -19,13 +19,18 @@ class TweetManager:
 
 		while active:
 			json = TweetManager.getJsonReponse(tweetCriteria, refreshCursor, cookieJar)
+			if not json:  # An exception in getJsonResponse might raise a TypeError,  where json is NoneType.
+				active = False
+				break
 			if len(json['items_html'].strip()) == 0:
+				active = False
 				break
 
 			refreshCursor = json['min_position']			
 			tweets = PyQuery(json['items_html'])('div.js-stream-tweet')
 			
 			if len(tweets) == 0:
+				active = False
 				break
 			
 			for tweetHTML in tweets:
@@ -123,12 +128,14 @@ class TweetManager:
 		try:
 			response = opener.open(url)
 			jsonResponse = response.read()
-		except:
+		except urllib.error.HTTPError as e:
 			#print("Twitter weird response. Try to see on browser: ", url)
 			print("Twitter weird response. Try to see on browser: https://twitter.com/search?q=%s&src=typd" % urllib.parse.quote(urlGetData))
-			print("Unexpected error:", sys.exc_info()[0])
-			sys.exit()
-			return
+			print("Unexpected error: {} code: {}", sys.exc_info()[0], e.code)
+
+		except urllib.error.URLError as e:
+			printer("Twitter weird response. Try to see on browser: https://twitter.com/search?q=%s&src=typd" % urllib.parse.quote(urlGetData))
+			print("Unexpected error: {} reason: {}", sys.exc_info()[0], e.reason)
 		
 		dataJson = json.loads(jsonResponse.decode())
 		
