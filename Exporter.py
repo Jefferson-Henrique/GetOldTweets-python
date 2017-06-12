@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import sys,getopt,datetime,codecs
+import sys,getopt,datetime,codecs,csv
 if sys.version_info[0] < 3:
     import got
 else:
@@ -55,16 +55,25 @@ def main(argv):
 			elif opt == '--output':
 				outputFileName = arg
 				
-		outputFile = codecs.open(outputFileName, "w+", "utf-8")
+		outputFile = csv.writer(open(outputFileName, "wb"), delimiter=',', quotechar='"', quoting=csv.QUOTE_ALL)
 
-		outputFile.write('username;date;retweets;favorites;text;geo;mentions;hashtags;id;permalink')
+		outputFile.writerow(['username','date','retweets','favorites','text','geo','mentions','hashtags','id','permalink'])
 
 		print('Searching...\n')
 
 		def receiveBuffer(tweets):
 			for t in tweets:
-				outputFile.write(('\n%s;%s;%d;%d;"%s";%s;%s;%s;"%s";%s' % (t.username, t.date.strftime("%Y-%m-%d %H:%M"), t.retweets, t.favorites, t.text, t.geo, t.mentions, t.hashtags, t.id, t.permalink)))
-			outputFile.flush();
+				add_list = []
+				for each in [t.username, t.date.strftime("%Y-%m-%d %H:%M"), t.retweets, t.favorites, t.text, t.geo, t.mentions, t.hashtags, t.id, t.permalink]:
+					if type(each) is str or type(each) is unicode:
+						valid_s = ''
+						for ch in each:
+							if ord(ch) in range(128):
+								valid_s+=ch
+						add_list.append(valid_s)
+					else:
+						add_list.append(each)
+				outputFile.writerow(add_list)
 			print('More %d saved on file...\n' % len(tweets))
 
 		got.manager.TweetManager.getTweets(tweetCriteria, receiveBuffer)
@@ -72,7 +81,6 @@ def main(argv):
 	except arg:
 		print('Arguments parser error, try -h' + arg)
 	finally:
-		outputFile.close()
 		print('Done. Output file generated "%s".' % outputFileName)
 
 if __name__ == '__main__':
