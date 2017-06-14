@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
 import sys,getopt,datetime,codecs
-# if sys.version_info[0] < 3:
-#     import got
-# else:
-#     import got3 as got
-import got3 as got
+if sys.version_info[0] < 3:
+    import got
+else:
+    import got3 as got
 
 def main(argv):
 
