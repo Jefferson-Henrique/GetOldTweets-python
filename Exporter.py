@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 import sys,getopt,datetime,codecs
-if sys.version_info[0] < 3:
-    import got
-else:
-    import got3 as got
+# if sys.version_info[0] < 3:
+#     import got
+# else:
+#     import got3 as got
+import got3 as got
 
 def main(argv):
 
@@ -13,7 +14,7 @@ def main(argv):
 
 	if len(argv) == 1 and argv[0] == '-h':
 		f = open('exporter_help_text.txt', 'r')
-		print f.read()
+		print(f.read())
 		f.close()
 
 		return
