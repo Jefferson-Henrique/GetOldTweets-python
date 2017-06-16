@@ -43,6 +43,16 @@ class TweetManager:
 				id = tweetPQ.attr("data-tweet-id");
 				permalink = tweetPQ.attr("data-permalink-path");
 				
+				emojisTxt = ''
+				emojis = tweetPQ("p.js-tweet-text img.Emoji");				
+				i = 0;
+				for emoji in emojis:
+					if (i > 0):
+						emojisTxt += ", ";
+					
+					emojisTxt += PyQuery(emoji).attr("title");
+					i += 1;
+				
 				geo = ''
 				geoSpan = tweetPQ('span.Tweet-geo')
 				if len(geoSpan) > 0:
@@ -58,6 +68,7 @@ class TweetManager:
 				tweet.mentions = " ".join(re.compile('(@\\w*)').findall(tweet.text))
 				tweet.hashtags = " ".join(re.compile('(#\\w*)').findall(tweet.text))
 				tweet.geo = geo
+				tweet.emojis = emojisTxt
 				
 				results.append(tweet)
 				resultsAux.append(tweet)
