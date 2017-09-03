@@ -42,6 +42,8 @@ class TweetManager:
 				dateSec = int(tweetPQ("small.time span.js-short-timestamp").attr("data-time"));
 				id = tweetPQ.attr("data-tweet-id");
 				permalink = tweetPQ.attr("data-permalink-path");
+				url = tweetPQ('a.twitter-timeline-link').attr('data-expanded-url')
+				tweet.url = url				
 				
 				geo = ''
 				geoSpan = tweetPQ('span.Tweet-geo')
