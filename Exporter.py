@@ -13,7 +13,7 @@ def main(argv):
 
 	if len(argv) == 1 and argv[0] == '-h':
 		f = open('exporter_help_text.txt', 'r')
-		print f.read()
+		print(f.read())
 		f.close()
 
 		return
@@ -42,10 +42,10 @@ def main(argv):
 
 			elif opt == '--maxtweets':
 				tweetCriteria.maxTweets = int(arg)
-			
+
 			elif opt == '--near':
 				tweetCriteria.near = '"' + arg + '"'
-			
+
 			elif opt == '--within':
 				tweetCriteria.within = '"' + arg + '"'
 
@@ -54,7 +54,7 @@ def main(argv):
 
 			elif opt == '--output':
 				outputFileName = arg
-				
+
 		outputFile = codecs.open(outputFileName, "w+", "utf-8")
 
 		outputFile.write('username;date;retweets;favorites;text;geo;mentions;hashtags;id;permalink')
@@ -69,8 +69,8 @@ def main(argv):
 
 		got.manager.TweetManager.getTweets(tweetCriteria, receiveBuffer)
 
-	except arg:
-		print('Arguments parser error, try -h' + arg)
+	except Exception as exc:
+		print('Arguments parser error, try -h. %s' % (exc))
 	finally:
 		outputFile.close()
 		print('Done. Output file generated "%s".' % outputFileName)
