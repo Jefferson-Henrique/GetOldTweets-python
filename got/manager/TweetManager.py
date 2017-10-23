@@ -109,8 +109,6 @@ class TweetManager:
 		
 		url = url % (urllib.quote(urlGetData), refreshCursor)
 
-		print url
-
 		headers = [
 			('Host', "twitter.com"),
 			('User-Agent', "Mozilla/5.0 (Windows NT 6.1; Win64; x64)"),
