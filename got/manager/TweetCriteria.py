@@ -35,3 +35,7 @@ class TweetCriteria:
 	def setWithin(self, within):
 		self.within = within
 		return self
+
+	def setLang(self, lang):
+		self.lang = lang
+		return lang

@@ -19,7 +19,7 @@ def main(argv):
 		return
 
 	try:
-		opts, args = getopt.getopt(argv, "", ("username=", "near=", "within=", "since=", "until=", "querysearch=", "toptweets", "maxtweets=", "output="))
+		opts, args = getopt.getopt(argv, "", ("username=", "near=", "within=", "since=", "until=", "querysearch=", "toptweets", "maxtweets=", "output=", "lang="))
 
 		tweetCriteria = got.manager.TweetCriteria()
 		outputFileName = "output_got.csv"
@@ -54,6 +54,9 @@ def main(argv):
 
 			elif opt == '--output':
 				outputFileName = arg
+
+			elif opt == '--lang':
+				tweetCriteria.lang = arg
 				
 		outputFile = codecs.open(outputFileName, "w+", "utf-8")
 
