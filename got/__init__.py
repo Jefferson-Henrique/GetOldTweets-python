@@ -1,2 +1,2 @@
-import models
-import manager
+from . import models
+from . import manager
