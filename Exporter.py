@@ -16,14 +16,43 @@ def main(argv):
 		return
 
 	try:
-		opts, args = getopt.getopt(argv, "", ("username=", "near=", "within=", "since=", "until=", "querysearch=", "toptweets", "maxtweets=", "output="))
-
+		opts, args = getopt.getopt(argv, "",(	"query=", "exact=", "any=", "exclude=", "hashtag=", "author=",
+												"recipient=", "mention=", "near=", "within=", "since=", "until=",
+												"lang=", "maxtweets=", "toptweets", "output=")
+											)
 		tweetCriteria = got.manager.TweetCriteria()
 		outputFileName = "output_got.csv"
 
 		for opt,arg in opts:
-			if opt == '--username':
-				tweetCriteria.username = arg
+			if opt == '--query':
+				tweetCriteria.querySearch = arg
+
+			elif opt == '--exact':
+				tweetCriteria.exactSearch = arg
+
+			elif opt == '--any':
+				tweetCriteria.anySearch = arg
+
+			elif opt == '--exclude':
+				tweetCriteria.excludeSearch = arg
+
+			elif opt == '--hashtag':
+				tweetCriteria.hashtag = arg
+
+			elif opt == '--author':
+				tweetCriteria.author = arg
+			
+			elif opt == '--recipient':
+				tweetCriteria.recipient = arg
+
+			elif opt == '--mention':
+				tweetCriteria.mention = arg			
+
+			elif opt == '--near':
+				tweetCriteria.location = arg
+
+			elif opt == '--within':
+				tweetCriteria.radius = int(arg)
 
 			elif opt == '--since':
 				tweetCriteria.since = arg
@@ -31,26 +60,18 @@ def main(argv):
 			elif opt == '--until':
 				tweetCriteria.until = arg
 
-			elif opt == '--querysearch':
-				tweetCriteria.querySearch = arg
+			elif opt == '--lang':
+				tweetCriteria.lang = arg
+
+			elif opt == '--maxtweets':
+				tweetCriteria.maxTweets = int(arg)
 
 			elif opt == '--toptweets':
 				tweetCriteria.topTweets = True
 
-			elif opt == '--maxtweets':
-				tweetCriteria.maxTweets = int(arg)
-			
-			elif opt == '--near':
-				tweetCriteria.near = '"' + arg + '"'
-			
-			elif opt == '--within':
-				tweetCriteria.within = '"' + arg + '"'
-
-			elif opt == '--within':
-				tweetCriteria.within = '"' + arg + '"'
-
 			elif opt == '--output':
 				outputFileName = arg
+
 				
 		outputFile = codecs.open(outputFileName, "w+", "utf-8")
 
