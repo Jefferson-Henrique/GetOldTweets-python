@@ -130,11 +130,36 @@ class TweetManager:
 						urlGetData += ' OR '
 				urlGetData += ' '
 			
+		if hasattr(tweetCriteria, 'recipient'):
+			temp_list = tweetCriteria.recipient.split()
+			if (len(temp_list) == 1):
+				urlGetData += 'to:' + temp_list[0] + ' '
+			else:
+				for usr in temp_list:
+					urlGetData += 'to:' + usr
+					if (usr != temp_list[-1]):
+						urlGetData += ' OR '
+				urlGetData += ' '
+
+		if hasattr(tweetCriteria, 'mention'):
+			temp_list = tweetCriteria.mention.split()
+			if (len(temp_list) == 1):
+				urlGetData += '@' + temp_list[0] + ' '
+			else:
+				for usr in temp_list:
+					urlGetData += '@' + usr
+					if (usr != temp_list[-1]):
+						urlGetData += ' OR '
+				urlGetData += ' '
+
+		if hasattr(tweetCriteria, 'location'):
+			urlGetData += 'near:"' + tweetCriteria.location + '" ' + str(tweetCriteria.radius) + ' '
+
 		if hasattr(tweetCriteria, 'since'):
-			urlGetData += ' since:' + tweetCriteria.since
+			urlGetData += 'since:' + tweetCriteria.since + ' '
 			
 		if hasattr(tweetCriteria, 'until'):
-			urlGetData += ' until:' + tweetCriteria.until
+			urlGetData += 'until:' + tweetCriteria.until + ' '
 			
 		if hasattr(tweetCriteria, 'lang'):
 			urlLang = 'lang=' + tweetCriteria.lang
