@@ -101,7 +101,7 @@ class TweetManager:
 			urlGetData += ' ' + tweetCriteria.querySearch
 			
 		if hasattr(tweetCriteria, 'near'):
-			urlGetData += "&near:" + tweetCriteria.near + " within:" + tweetCriteria.within
+			urlGetData += "&near:" + tweetCriteria.near + "within:" + tweetCriteria.within
 			
 		if hasattr(tweetCriteria, 'lang'):
 			urlLang = 'lang=' + tweetCriteria.lang + '&'
