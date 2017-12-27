@@ -25,8 +25,11 @@ class TweetManager:
 			if len(json['items_html'].strip()) == 0:
 				break
 
-			refreshCursor = json['min_position']			
-			tweets = PyQuery(json['items_html'])('div.js-stream-tweet')
+			refreshCursor = json['min_position']
+			scrapedTweets = PyQuery(json['items_html'])
+			#Remove incomplete tweets withheld by Twitter Guidelines
+			scrapedTweets.remove('div.withheld-tweet')
+			tweets = scrapedTweets('div.js-stream-tweet')
 			
 			if len(tweets) == 0:
 				break
