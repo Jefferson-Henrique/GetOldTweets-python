@@ -55,25 +55,26 @@ def main(argv):
 			elif opt == '--output':
 				outputFileName = arg
 				
-		outputFile = codecs.open(outputFileName, "w+", "utf-8")
+		with codecs.open(outputFileName, "w+", "utf-8") as outputFile:
 
-		outputFile.write('username;date;retweets;favorites;text;geo;mentions;hashtags;id;permalink')
+			outputFile.write('username;date;retweets;favorites;text;geo;mentions;hashtags;id;permalink')
 
-		print('Searching...\n')
+			print('Searching...\n')
 
-		def receiveBuffer(tweets):
-			for t in tweets:
-				outputFile.write(('\n%s;%s;%d;%d;"%s";%s;%s;%s;"%s";%s' % (t.username, t.date.strftime("%Y-%m-%d %H:%M"), t.retweets, t.favorites, t.text, t.geo, t.mentions, t.hashtags, t.id, t.permalink)))
-			outputFile.flush();
-			print('More %d saved on file...\n' % len(tweets))
+			def receiveBuffer(tweets):
+				for t in tweets:
+					outputFile.write(('\n%s;%s;%d;%d;"%s";%s;%s;%s;"%s";%s' % (t.username, t.date.strftime("%Y-%m-%d %H:%M"), t.retweets, t.favorites, t.text, t.geo, t.mentions, t.hashtags, t.id, t.permalink)))
+				outputFile.flush();
+				print('More %d saved on file...\n' % len(tweets))
 
-		got.manager.TweetManager.getTweets(tweetCriteria, receiveBuffer)
+			got.manager.TweetManager.getTweets(tweetCriteria, receiveBuffer)
 
-	except arg:
-		print('Arguments parser error, try -h' + arg)
-	finally:
-		outputFile.close()
-		print('Done. Output file generated "%s".' % outputFileName)
+	except getopt.GetoptError as err:
+		print('Arguments parser error, try -h')
+		print('\n\t' + err.msg)
+
+	except Exception as err:
+		print('Error: ' + err.msg)
 
 if __name__ == '__main__':
 	main(sys.argv[1:])
