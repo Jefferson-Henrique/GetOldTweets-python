@@ -58,8 +58,8 @@ class TweetManager:
 				tweet.date = datetime.datetime.fromtimestamp(dateSec)
 				tweet.retweets = retweets
 				tweet.favorites = favorites
-				tweet.mentions = " ".join(re.compile('(@\\w*)').findall(tweet.text))
-				tweet.hashtags = " ".join(re.compile('(#\\w*)').findall(tweet.text))
+				tweet.mentions = " ".join(re.compile(r'(@\s\w*)').findall(tweet.text))
+				tweet.hashtags = " ".join(re.compile(r'(#\s\w*)').findall(tweet.text))
 				tweet.geo = geo
 
 				tweet.isReply = tweetPQ("div.ReplyingToContextBelowAuthor").is_("div")
