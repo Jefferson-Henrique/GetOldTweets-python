@@ -61,6 +61,12 @@ class TweetManager:
 				tweet.mentions = " ".join(re.compile('(@\\w*)').findall(tweet.text))
 				tweet.hashtags = " ".join(re.compile('(#\\w*)').findall(tweet.text))
 				tweet.geo = geo
+
+				tweet.isReply = tweetPQ("div.ReplyingToContextBelowAuthor").is_("div")
+				if tweet.isReply:
+					tweet.replyTo = tweetPQ("div.ReplyingToContextBelowAuthor span.username b").contents()[0]
+				else:
+					tweet.replyTo = ''
 				
 				results.append(tweet)
 				resultsAux.append(tweet)
