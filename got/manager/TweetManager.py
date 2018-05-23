@@ -111,7 +111,7 @@ class TweetManager:
 
 		headers = [
 			('Host', "twitter.com"),
-			('User-Agent', "Mozilla/5.0 (Windows NT 6.1; Win64; x64)"),
+			('User-Agent', "Chrome/66.0.3359.181"),
 			('Accept', "application/json, text/javascript, */*; q=0.01"),
 			('Accept-Language', "de,en-US;q=0.7,en;q=0.3"),
 			('X-Requested-With', "XMLHttpRequest"),
