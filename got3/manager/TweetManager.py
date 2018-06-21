@@ -35,7 +35,7 @@ class TweetManager:
 				tweetPQ = PyQuery(tweetHTML)
 				tweet = models.Tweet()
 				
-				usernameTweet = tweetPQ("span.username.js-action-profile-name b").text()
+				# usernameTweet = tweetPQ("span.username.js-action-profile-name b").text()
 				txt = re.sub(r"\s+", " ", tweetPQ("p.js-tweet-text").text().replace('# ', '#').replace('@ ', '@'))
 				retweets = int(tweetPQ("span.ProfileTweet-action--retweet span.ProfileTweet-actionCount").attr("data-tweet-stat-count").replace(",", ""))
 				favorites = int(tweetPQ("span.ProfileTweet-action--favorite span.ProfileTweet-actionCount").attr("data-tweet-stat-count").replace(",", ""))
@@ -56,7 +56,7 @@ class TweetManager:
 						pass
 				tweet.id = id
 				tweet.permalink = 'https://twitter.com' + permalink
-				tweet.username = usernameTweet
+				tweet.username = tweet.username = re.split('/', permalink)[1]
 				
 				tweet.text = txt
 				tweet.date = datetime.datetime.fromtimestamp(dateSec)
