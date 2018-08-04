@@ -49,9 +49,6 @@ def main(argv):
 			elif opt == '--within':
 				tweetCriteria.within = '"' + arg + '"'
 
-			elif opt == '--within':
-				tweetCriteria.within = '"' + arg + '"'
-
 			elif opt == '--output':
 				outputFileName = arg
 				
