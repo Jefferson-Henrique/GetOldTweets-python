@@ -57,14 +57,14 @@ pip install -r requirements.txt
 	tweetCriteria = got.manager.TweetCriteria().setQuerySearch('europe refugees').setSince("2015-05-01").setUntil("2015-09-30").setMaxTweets(1)
 	tweet = got.manager.TweetManager.getTweets(tweetCriteria)[0]
 	  
-    print tweet.text
+    print(tweet.text)
 ```    
 - Get tweets by username and bound dates
 ``` python
 	tweetCriteria = got.manager.TweetCriteria().setUsername("barackobama").setSince("2015-09-10").setUntil("2015-09-12").setMaxTweets(1)
 	tweet = got.manager.TweetManager.getTweets(tweetCriteria)[0]
 	  
-    print tweet.text
+    print(tweet.text)
 ```
 - Get the last 10 top tweets by username
 ``` python
@@ -72,7 +72,7 @@ pip install -r requirements.txt
 	# first one
 	tweet = got.manager.TweetManager.getTweets(tweetCriteria)[0]
 	  
-    print tweet.text
+    print(tweet.text)
 ```
 
 ## Examples of command-line usage
