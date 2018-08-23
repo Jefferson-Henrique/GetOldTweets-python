@@ -61,8 +61,9 @@ class TweetManager:
                 tweet.username = usernameTweet
 
                 tweet.text = txt
-                tweet.date = datetime.datetime.fromtimestamp(dateSec)
-                tweet.formatted_date = datetime.datetime.fromtimestamp(dateSec).strftime("%a %b %d %X +0000 %Y")
+                tweet.date = datetime.datetime.fromtimestamp(dateSec, tz=datetime.timezone.utc)
+                tweet.formatted_date = datetime.datetime.fromtimestamp(dateSec, tz=datetime.timezone.utc)\
+                                                        .strftime("%a %b %d %X +0000 %Y")
                 tweet.retweets = retweets
                 tweet.favorites = favorites
                 tweet.mentions = " ".join(re.compile('(@\\w*)').findall(tweet.text))
