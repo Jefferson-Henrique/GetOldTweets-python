@@ -1,15 +1,16 @@
 # Get Old Tweets Programatically
 A project written in Python to get old tweets, it bypass some limitations of Twitter Official API.
 
+This is a fork of the original Jefferson Henrique's [GetOldTweets-python](https://github.com/Jefferson-Henrique/GetOldTweets-python) with necessary patches for **Python 3** since the original code has not been updated for a long time.  
+Python 2 support was removed from this fork.
+
 ## Details
 Twitter Official API has the bother limitation of time constraints, you can't get older tweets than a week. Some tools provide access to older tweets but in the most of them you have to spend some money before.
 I was searching other tools to do this job but I didn't found it, so after analyze how Twitter Search through browser works I understand its flow. Basically when you enter on Twitter page a scroll loader starts, if you scroll down you start to get more and more tweets, all through calls to a JSON provider. After mimic we get the best advantage of Twitter Search on browsers, it can search the deepest oldest tweets.
 
 ## Prerequisites
-This package assumes using Python 2.x. The Python3 "got3" folder is maintained as experimental and is not officially supported.
-
-Expected package dependencies are listed in the "requirements.txt" file for PIP, you need to run the following command to get dependencies:
-```
+Expected package dependencies are listed in the "requirements.txt" file for _pip_, you need to run the following command to get dependencies:
+```sh
 pip install -r requirements.txt
 ```
 
