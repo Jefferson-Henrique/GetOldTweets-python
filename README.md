@@ -32,8 +32,8 @@ pip install -r requirements.txt
 
 - **TwitterCriteria:** A collection of search parameters to be used together with **TweetManager**.
   - setUsername (str): An optional specific username from a twitter account. Without "@".
-  - setSince (str. "yyyy-mm-dd"): A lower bound date to restrict search.
-  - setUntil (str. "yyyy-mm-dd"): An upper bound date to restrist search.
+  - setSince (str. "yyyy-mm-dd" or "yyyy-mm-dd HH:MM:SS"): A lower bound date to restrict search.
+  - setUntil (str. "yyyy-mm-dd" or "yyyy-mm-dd HH:MM:SS"): An upper bound date to restrist search.
   - setQuerySearch (str): A query text to be matched.
   - setTopTweets (bool): If True only the Top Tweets will be retrieved.
   - setNear(str): A reference location area from where tweets were generated.
@@ -51,7 +51,7 @@ tweetCriteria = got.manager.TweetCriteria().setUsername('barackobama')\
                                            .setMaxTweets(1)
 tweet = got.manager.TweetManager.getTweets(tweetCriteria)[0]
 print tweet.text
-```    
+```
 
 - Get tweets by query search
 ``` python
@@ -61,13 +61,13 @@ tweetCriteria = got.manager.TweetCriteria().setQuerySearch('europe refugees')\
                                            .setMaxTweets(1)
 tweet = got.manager.TweetManager.getTweets(tweetCriteria)[0]
 print(tweet.text)
-```    
+```
 
 - Get tweets by username and bound dates
 ``` python
 tweetCriteria = got.manager.TweetCriteria().setUsername("barackobama")\
                                            .setSince("2015-09-10")\
-                                           .setUntil("2015-09-12")\
+                                           .setUntil("2015-09-12  23:30:15")\
                                            .setMaxTweets(1)
 tweet = got.manager.TweetManager.getTweets(tweetCriteria)[0]
 print(tweet.text)
@@ -100,7 +100,7 @@ python3 Exporter.py --querysearch "europe refugees" --maxtweets 1
 
 - Get tweets by username and bound dates:
 ``` bash
-python3 Exporter.py --username "barackobama" --since 2015-09-10 --until 2015-09-12 --maxtweets 1
+python3 Exporter.py --username "barackobama" --since 2015-09-10 --until "2015-09-12 23:30:15" --maxtweets 1
 ```
 
 - Get the last 10 top tweets by username:
