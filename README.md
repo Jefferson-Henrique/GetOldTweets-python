@@ -78,21 +78,21 @@ pip install -r requirements.txt
 ## Examples of command-line usage
 - Get help use
 ```
-    python Exporter.py -h
+    python3 Exporter.py -h
 ``` 
 - Get tweets by username
 ```
-    python Exporter.py --username "barackobama" --maxtweets 1
+    python3 Exporter.py --username "barackobama" --maxtweets 1
 ```    
 - Get tweets by query search
 ```
-    python Exporter.py --querysearch "europe refugees" --maxtweets 1
+    python3 Exporter.py --querysearch "europe refugees" --maxtweets 1
 ```    
 - Get tweets by username and bound dates
 ```
-    python Exporter.py --username "barackobama" --since 2015-09-10 --until 2015-09-12 --maxtweets 1
+    python3 Exporter.py --username "barackobama" --since 2015-09-10 --until 2015-09-12 --maxtweets 1
 ```
 - Get the last 10 top tweets by username
 ```
-    python Exporter.py --username "barackobama" --maxtweets 10 --toptweets
+    python3 Exporter.py --username "barackobama" --maxtweets 10 --toptweets
 ```
