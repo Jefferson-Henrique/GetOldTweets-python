@@ -20,7 +20,7 @@ pip install -r requirements.txt
   - permalink (str)
   - username (str)
   - text (str)
-  - date (date)
+  - date (datetime) in UTC
   - retweets (int)
   - favorites (int)
   - mentions (str)
