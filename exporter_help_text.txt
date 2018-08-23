@@ -1,7 +1,7 @@
 To use this script you can pass the following attributes:
     username: Username of a specific twitter account (without @)
-       since: The lower bound date (yyyy-mm-aa)
-       until: The upper bound date (yyyy-mm-aa)
+       since: The lower bound date (yyyy-mm-dd or yyyy-mm-dd HH:MM:SS)
+       until: The upper bound date (yyyy-mm-dd or yyyy-mm-dd HH:MM:SS)
  querysearch: A query text to be matched
         near: A reference location area from where tweets were generated
       within: A distance radius from "near" location (e.g. 15mi)
