@@ -110,7 +110,6 @@ class TweetManager:
         else:
             urlLang = ''
         url = url % (urllib.parse.quote(urlGetData.strip()), urlLang, refreshCursor)
-        print("url=",url)
 
         headers = [
             ('Host', "twitter.com"),
