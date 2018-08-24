@@ -90,7 +90,11 @@ class TweetManager:
         
         urlGetData = ''
         if hasattr(tweetCriteria, 'username'):
-            urlGetData += ' from:' + tweetCriteria.username
+            sep = ',' if ',' in tweetCriteria.username else None
+            usernames = [u.strip() for u in tweetCriteria.username.split(sep=sep)]
+            usernames[:] = [' from:'+u for u in usernames if u]
+            if usernames:
+                urlGetData += ' OR'.join(usernames)
             
         if hasattr(tweetCriteria, 'since'):
             urlGetData += ' since:' + tweetCriteria.since
@@ -105,7 +109,8 @@ class TweetManager:
             urlLang = 'lang=' + tweetCriteria.lang + '&'
         else:
             urlLang = ''
-        url = url % (urllib.parse.quote(urlGetData), urlLang, refreshCursor)
+        url = url % (urllib.parse.quote(urlGetData.strip()), urlLang, refreshCursor)
+        print("url=",url)
 
         headers = [
             ('Host', "twitter.com"),
