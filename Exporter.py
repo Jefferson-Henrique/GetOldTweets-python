@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import sys, getopt
+import os, sys, getopt
 if sys.version_info[0] < 3:
     raise Exception("Python 2.x is not supported. Please upgrade to 3.x")
 import got
@@ -60,13 +60,14 @@ def main(argv):
 
             elif opt == '--output':
                 outputFileName = arg
-                
+
         outputFile = open(outputFileName, "w+", encoding="utf8")
         outputFile.write('date,username,retweets,favorites,text,geo,mentions,hashtags,id,permalink\n')
 
-        print('Searching...\n')
-
+        cnt = 0
         def receiveBuffer(tweets):
+            nonlocal cnt
+
             for t in tweets:
                 data = [t.date.strftime("%Y-%m-%d %H:%M:%S"),
                     t.username,
@@ -82,8 +83,14 @@ def main(argv):
                 outputFile.write(','.join(data) + '\n')
 
             outputFile.flush()
-            print('More %d saved on file...\n' % len(tweets))
+            cnt += len(tweets)
 
+            if sys.stdout.isatty():
+                print("\rSaved %i"%cnt, end='', flush=True)
+            else:
+                print(cnt, end=' ', flush=True)
+
+        print("Downloading tweets...")
         got.manager.TweetManager.getTweets(tweetCriteria, receiveBuffer)
 
     except getopt.GetoptError as err:
@@ -96,6 +103,7 @@ def main(argv):
     finally:
         if "outputFile" in locals():
             outputFile.close()
+            print()
             print('Done. Output file generated "%s".' % outputFileName)
 
 if __name__ == '__main__':
