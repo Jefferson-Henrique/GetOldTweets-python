@@ -37,41 +37,36 @@ class TweetManager:
                 tweetPQ = PyQuery(tweetHTML)
                 tweet = models.Tweet()
 
-                usernameTweet = tweetPQ("span.username.u-dir b").text()
-                txt = re.sub(r"\s+", " ", tweetPQ("p.js-tweet-text").text())\
+                tweet.username = tweetPQ("span.username.u-dir b").text()
+                tweet.text = re.sub(r"\s+", " ", tweetPQ("p.js-tweet-text").text())\
                     .replace('# ', '#').replace('@ ', '@').replace('$ ', '$')
-                retweets = int(tweetPQ("span.ProfileTweet-action--retweet span.ProfileTweet-actionCount").attr("data-tweet-stat-count").replace(",", ""))
-                favorites = int(tweetPQ("span.ProfileTweet-action--favorite span.ProfileTweet-actionCount").attr("data-tweet-stat-count").replace(",", ""))
-                dateSec = int(tweetPQ("small.time span.js-short-timestamp").attr("data-time"))
-                id = tweetPQ.attr("data-tweet-id")
-                permalink = tweetPQ.attr("data-permalink-path")
-                user_id = int(tweetPQ("a.js-user-profile-link").attr("data-user-id"))
+                tweet.retweets = int(tweetPQ("span.ProfileTweet-action--retweet span.ProfileTweet-actionCount").attr("data-tweet-stat-count").replace(",", ""))
+                tweet.favorites = int(tweetPQ("span.ProfileTweet-action--favorite span.ProfileTweet-actionCount").attr("data-tweet-stat-count").replace(",", ""))
+                tweet.id = tweetPQ.attr("data-tweet-id")
+                tweet.permalink = 'https://twitter.com' + tweetPQ.attr("data-permalink-path")
+                tweet.author_id = int(tweetPQ("a.js-user-profile-link").attr("data-user-id"))
 
-                geo = ''
+                dateSec = int(tweetPQ("small.time span.js-short-timestamp").attr("data-time"))
+                tweet.date = datetime.datetime.fromtimestamp(dateSec, tz=datetime.timezone.utc)
+                tweet.formatted_date = datetime.datetime.fromtimestamp(dateSec, tz=datetime.timezone.utc)\
+                                                        .strftime("%a %b %d %X +0000 %Y")
+                tweet.mentions = " ".join(re.compile('(@\\w*)').findall(tweet.text))
+                tweet.hashtags = " ".join(re.compile('(#\\w*)').findall(tweet.text))
+
                 geoSpan = tweetPQ('span.Tweet-geo')
                 if len(geoSpan) > 0:
-                    geo = geoSpan.attr('title')
+                    tweet.geo = geoSpan.attr('title')
+                else:
+                    tweet.geo = ''
+
                 urls = []
                 for link in tweetPQ("a"):
                     try:
                         urls.append((link.attrib["data-expanded-url"]))
                     except KeyError:
                         pass
-                tweet.id = id
-                tweet.permalink = 'https://twitter.com' + permalink
-                tweet.username = usernameTweet
 
-                tweet.text = txt
-                tweet.date = datetime.datetime.fromtimestamp(dateSec, tz=datetime.timezone.utc)
-                tweet.formatted_date = datetime.datetime.fromtimestamp(dateSec, tz=datetime.timezone.utc)\
-                                                        .strftime("%a %b %d %X +0000 %Y")
-                tweet.retweets = retweets
-                tweet.favorites = favorites
-                tweet.mentions = " ".join(re.compile('(@\\w*)').findall(tweet.text))
-                tweet.hashtags = " ".join(re.compile('(#\\w*)').findall(tweet.text))
-                tweet.geo = geo
                 tweet.urls = ",".join(urls)
-                tweet.author_id = user_id
 
                 results.append(tweet)
                 resultsAux.append(tweet)
