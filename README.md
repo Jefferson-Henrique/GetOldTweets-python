@@ -101,6 +101,7 @@ python3 Exporter.py --username "barackobama" --maxtweets 1
 ``` bash
 python3 Exporter.py --username "BarackObama,AngelaMerkeICDU" --username "WhiteHouse"  --maxtweets 1
 ```
+(check https://github.com/Mottl/influencers for some prepared lists of usernames)
 
 - Get top tweets from users specified in files and also specific users:
 ``` bash
