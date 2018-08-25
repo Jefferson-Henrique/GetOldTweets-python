@@ -1,6 +1,7 @@
 # Get Old Tweets Programatically
 A project written in Python to get old tweets, it bypass some limitations of Twitter Official API.
 
+![Python 3x](https://img.shields.io/badge/python-3.x-blue.svg)
 [![Build Status](https://travis-ci.org/Mottl/GetOldTweets-python3.svg?branch=master)](https://travis-ci.org/Mottl/GetOldTweets-python3)
 
 GetOldTweets-python3 is an improvement fork of the original Jefferson Henrique's [GetOldTweets-python](https://github.com/Jefferson-Henrique/GetOldTweets-python). It fixes issues with **Python 3** and adds features such as searching tweets over multiple users accounts.  
