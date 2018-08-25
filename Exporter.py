@@ -83,14 +83,14 @@ def main(argv):
         if usernames:
             if len(usernames) > 1:
                 tweetCriteria.username = usernames
-                if len(usernames)>20 and hasattr(tweetCriteria, 'maxTweets'):
+                if len(usernames)>20 and tweetCriteria.maxTweets > 0:
                     maxtweets_ = (len(usernames) // 20 + (len(usernames)%20>0)) * tweetCriteria.maxTweets
                     print("Warning: due to multiple username batches `maxtweets' set to %i" % maxtweets_)
             else:
                 tweetCriteria.username = usernames.pop()
 
         outputFile = open(outputFileName, "w+", encoding="utf8")
-        outputFile.write('date,username,retweets,favorites,text,geo,mentions,hashtags,id,permalink\n')
+        outputFile.write('date,username,to,retweets,favorites,text,geo,mentions,hashtags,id,permalink\n')
 
         cnt = 0
         def receiveBuffer(tweets):
