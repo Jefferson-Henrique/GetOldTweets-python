@@ -3,7 +3,7 @@ A project written in Python to get old tweets, it bypass some limitations of Twi
 
 [![Build Status](https://travis-ci.org/Mottl/GetOldTweets-python3.svg?branch=master)](https://travis-ci.org/Mottl/GetOldTweets-python3)
 
-This is a fork of the original Jefferson Henrique's [GetOldTweets-python](https://github.com/Jefferson-Henrique/GetOldTweets-python) with necessary patches for **Python 3** since the original code has not been updated for a long time.  
+GetOldTweets-python3 is an improvement fork of the original Jefferson Henrique's [GetOldTweets-python](https://github.com/Jefferson-Henrique/GetOldTweets-python). It fixes issues with **Python 3** and adds features such as searching tweets over multiple users accounts.  
 Python 2 support was removed from this fork.
 
 ## Details
@@ -21,6 +21,7 @@ pip install -r requirements.txt
   - id (str)
   - permalink (str)
   - username (str)
+  - to (str)
   - text (str)
   - date (datetime) in UTC
   - retweets (int)
@@ -33,7 +34,7 @@ pip install -r requirements.txt
   - getTweets (**TwitterCriteria**): Return the list of tweets retrieved by using an instance of **TwitterCriteria**. 
 
 - **TwitterCriteria:** A collection of search parameters to be used together with **TweetManager**.
-  - setUsername (str): An optional specific username from a twitter account. Without "@".
+  - setUsername (str or iterable): An optional specific username(s) from a twitter account (with or without "@").
   - setSince (str. "yyyy-mm-dd" or "yyyy-mm-dd HH:MM:SS"): A lower bound date/time in UTC to restrict search.
   - setUntil (str. "yyyy-mm-dd" or "yyyy-mm-dd HH:MM:SS"): An upper bound date/time in UTC to restrist search.
   - setQuerySearch (str): A query text to be matched.
@@ -47,10 +48,10 @@ pip install -r requirements.txt
 - **Exporter:** Export tweets to a csv file named "output_got.csv".
 
 ## Examples of python usage
-- Get tweets by username
+- Get tweets by username(s)
 ``` python
-tweetCriteria = got.manager.TweetCriteria().setUsername('barackobama')\
-                                           .setMaxTweets(1)
+tweetCriteria = got.manager.TweetCriteria().setUsername("barackobama whitehouse")\
+                                           .setMaxTweets(2)
 tweet = got.manager.TweetManager.getTweets(tweetCriteria)[0]
 print tweet.text
 ```
@@ -84,7 +85,7 @@ tweet = got.manager.TweetManager.getTweets(tweetCriteria)[0]
 print(tweet.text)
 ```
 
-## Examples of command-line usage
+## Examples of a command-line usage
 - Get help use:
 ``` bash
 python3 Exporter.py -h
@@ -93,19 +94,29 @@ python3 Exporter.py -h
 - Get tweets by username:
 ``` bash
 python3 Exporter.py --username "barackobama" --maxtweets 1
-```    
+```
 
-- Get tweets by query search:
+- Get tweets by sevaral usernames (use multiple --username options or a comma/space separated list):
+``` bash
+python3 Exporter.py --username "BarackObama,AngelaMerkeICDU" --username "WhiteHouse"  --maxtweets 1
+```
+
+- Get top tweets from users specified in files and also specific users:
+``` bash
+python3 Exporter.py --usernames-from-file userlist.txt --usernames-from-file additinal_list.txt --username "barackobama,whitehouse" --toptweets
+```
+
+- Get tweets by a query search:
 ``` bash
 python3 Exporter.py --querysearch "europe refugees" --maxtweets 1
-```    
+```
 
-- Get tweets by username and bound dates:
+- Get tweets by a username and bound dates:
 ``` bash
 python3 Exporter.py --username "barackobama" --since 2015-09-10 --until "2015-09-12 23:30:15" --maxtweets 1
 ```
 
-- Get the last 10 top tweets by username:
+- Get the last 10 top tweets by a username:
 ``` bash
 python3 Exporter.py --username "barackobama" --maxtweets 10 --toptweets
 ```

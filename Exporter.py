@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import os, sys, getopt
+import os, sys, re, getopt
 if sys.version_info[0] < 3:
     raise Exception("Python 2.x is not supported. Please upgrade to 3.x")
 import got
-
 
 def main(argv):
 
@@ -21,6 +20,7 @@ def main(argv):
 
     try:
         opts, args = getopt.getopt(argv, "", ("username=",
+                                              "usernames-from-file=",
                                               "near=",
                                               "within=",
                                               "since=",
@@ -33,9 +33,16 @@ def main(argv):
         tweetCriteria = got.manager.TweetCriteria()
         outputFileName = "output_got.csv"
 
-        for opt,arg in opts:
+        usernames = set()
+        username_files = set()
+        for opt, arg in opts:
             if opt == '--username':
-                tweetCriteria.username = arg
+                usernames_ = [u.lstrip('@') for u in re.split(r'[\s,]+', arg) if u]
+                usernames_ = [u.lower() for u in usernames_ if u]
+                usernames |= set(usernames_)
+
+            if opt == '--usernames-from-file':
+                username_files.add(arg)
 
             elif opt == '--since':
                 tweetCriteria.since = arg
@@ -61,6 +68,27 @@ def main(argv):
             elif opt == '--output':
                 outputFileName = arg
 
+        if username_files:
+            for uf in username_files:
+                if not os.path.isfile(uf):
+                    raise Exception("File not found: %s"%uf)
+                with open(uf) as f:
+                    data = f.read()
+                    data = re.sub('(?m)#.*?$', '', data)  # remove comments
+                    usernames_ = [u.lstrip('@') for u in re.split(r'[\s,]+', data) if u]
+                    usernames_ = [u.lower() for u in usernames_ if u]
+                    usernames |= set(usernames_)
+                    print("Found %i usernames in %s" % (len(usernames_), uf))
+
+        if usernames:
+            if len(usernames) > 1:
+                tweetCriteria.username = usernames
+                if len(usernames)>20 and hasattr(tweetCriteria, 'maxTweets'):
+                    maxtweets_ = (len(usernames) // 20 + (len(usernames)%20>0)) * tweetCriteria.maxTweets
+                    print("Warning: due to multiple username batches `maxtweets' set to %i" % maxtweets_)
+            else:
+                tweetCriteria.username = usernames.pop()
+
         outputFile = open(outputFileName, "w+", encoding="utf8")
         outputFile.write('date,username,retweets,favorites,text,geo,mentions,hashtags,id,permalink\n')
 
@@ -71,6 +99,7 @@ def main(argv):
             for t in tweets:
                 data = [t.date.strftime("%Y-%m-%d %H:%M:%S"),
                     t.username,
+                    t.to or '',
                     t.retweets,
                     t.favorites,
                     '"'+t.text.replace('"','""')+'"',
@@ -95,10 +124,10 @@ def main(argv):
 
     except getopt.GetoptError as err:
         print('Arguments parser error, try -h')
-        print('\n\t' + err.msg)
+        print('\t' + str(err))
 
     except Exception as err:
-        print('Error: ' + err.msg)
+        print(str(err))
 
     finally:
         if "outputFile" in locals():
