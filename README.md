@@ -37,7 +37,7 @@ pip install -r requirements.txt
 - **TwitterCriteria:** A collection of search parameters to be used together with **TweetManager**.
   - setUsername (str or iterable): An optional specific username(s) from a twitter account (with or without "@").
   - setSince (str. "yyyy-mm-dd" or "yyyy-mm-dd HH:MM:SS"): A lower bound date/time in UTC to restrict search.
-  - setUntil (str. "yyyy-mm-dd" or "yyyy-mm-dd HH:MM:SS"): An upper bound date/time in UTC to restrist search.
+  - setUntil (str. "yyyy-mm-dd" or "yyyy-mm-dd HH:MM:SS"): An upper bound date/time in UTC to restrict search.
   - setQuerySearch (str): A query text to be matched.
   - setTopTweets (bool): If True only the Top Tweets will be retrieved.
   - setNear(str): A reference location area from where tweets were generated.
