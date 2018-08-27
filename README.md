@@ -97,7 +97,7 @@ python3 Exporter.py -h
 python3 Exporter.py --username "barackobama" --maxtweets 1
 ```
 
-- Get tweets by sevaral usernames (use multiple --username options or a comma/space separated list):
+- Get tweets by several usernames (use multiple --username options or a comma/space separated list):
 ``` bash
 python3 Exporter.py --username "BarackObama,AngelaMerkeICDU" --username "WhiteHouse"  --maxtweets 1
 ```
