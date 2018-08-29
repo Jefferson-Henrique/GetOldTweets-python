@@ -6,11 +6,22 @@ from pyquery import PyQuery
 from .. import models
 
 class TweetManager:
+    """A class for accessing the Twitter's search engine"""
     def __init__(self):
         pass
 
     @staticmethod
     def getTweets(tweetCriteria, receiveBuffer=None, bufferLength=100, proxy=None):
+        """Get tweets that match the tweetCriteria parameter
+        A static method.
+
+        Parameters
+        ----------
+        tweetCriteria : tweetCriteria, an object that specifies a match criteria
+        receiveBuffer : callable, a function that will be called upon a getting next `bufferLength' tweets
+        bufferLength: int, the number of tweets to pass to `receiveBuffer' function
+        proxy: str, a proxy server to use
+        """
         results = []
         resultsAux = []
         cookieJar = http.cookiejar.CookieJar()
@@ -33,7 +44,7 @@ class TweetManager:
             refreshCursor = ''
             batch_cnt_results = 0
 
-            if all_usernames:  # username in criteria?
+            if all_usernames:  # a username in the criteria?
                 tweetCriteria.username = all_usernames[batch*usernames_per_batch:batch*usernames_per_batch+usernames_per_batch]
 
             active = True
@@ -108,6 +119,9 @@ class TweetManager:
 
     @staticmethod
     def getJsonReponse(tweetCriteria, refreshCursor, cookieJar, proxy):
+        """Invoke an HTTP query to Twitter.
+        Should not be used as an API function. A static method.
+        """
         url = "https://twitter.com/i/search/timeline?f=tweets&q=%s&src=typd&%smax_position=%s"
 
         urlGetData = ''
