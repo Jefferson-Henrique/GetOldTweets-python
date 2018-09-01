@@ -54,7 +54,7 @@ pip install -r requirements.txt
 tweetCriteria = got.manager.TweetCriteria().setUsername("barackobama whitehouse")\
                                            .setMaxTweets(2)
 tweet = got.manager.TweetManager.getTweets(tweetCriteria)[0]
-print tweet.text
+print(tweet.text)
 ```
 
 - Get tweets by query search
