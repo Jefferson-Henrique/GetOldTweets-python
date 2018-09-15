@@ -4,17 +4,15 @@ A Python 3 library and a corresponding command line utility for accessing old tw
 ![Python 3x](https://img.shields.io/badge/python-3.x-blue.svg)
 [![Build Status](https://travis-ci.org/Mottl/GetOldTweets3.svg?branch=master)](https://travis-ci.org/Mottl/GetOldTweets3)
 
-GetOldTweets3 is an improvement fork of the original Jefferson Henrique's [GetOldTweets-python](https://github.com/Jefferson-Henrique/GetOldTweets-python). It fixes issues with **Python 3** and adds features such as searching tweets over multiple users accounts. Python 2 is not supported.
+GetOldTweets3 is an improvement fork of the original Jefferson Henrique's [GetOldTweets-python](https://github.com/Jefferson-Henrique/GetOldTweets-python). It fixes issues with Python 3 and adds features such as searching tweets over multiple users accounts. Python 2 is not supported.
 
 ## Details
 Twitter Official API has the bother limitation of time constraints, you can't get older tweets than a week. Some tools provide access to older tweets but in the most of them you have to spend some money before.
 I was searching other tools to do this job but I didn't found it, so after analyze how Twitter Search through browser works I understand its flow. Basically when you enter on Twitter page a scroll loader starts, if you scroll down you start to get more and more tweets, all through calls to a JSON provider. After mimic we get the best advantage of Twitter Search on browsers, it can search the deepest oldest tweets.
 
-## Prerequisites
-Required packages are listed in the "requirements.txt" file for _pip_. You need to run the following command to install them:
-```sh
-pip install -r requirements.txt
-```
+## Installation
+Use `pip install GetOldTweets3`  
+or `pip install -e https://github.com/Mottl/GetOldTweets3`
 
 ## Command line utility
 **GetOldTweets3:** exports tweets to a specified csv file ("output_got.csv" by default).
@@ -86,6 +84,8 @@ GetOldTweets3 --username "barackobama" --maxtweets 10 --toptweets
 ### Examples
 - Get tweets by username(s)
 ``` python
+import GetOldTweets3 as got
+
 tweetCriteria = got.manager.TweetCriteria().setUsername("barackobama whitehouse")\
                                            .setMaxTweets(2)
 tweet = got.manager.TweetManager.getTweets(tweetCriteria)[0]
