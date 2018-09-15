@@ -1,23 +1,62 @@
-# Get Old Tweets Programatically
-A project written in Python to get old tweets, it bypass some limitations of Twitter Official API.
+# GetOldTweets3
+A python3 library for accessing old tweets and a corresponding command-line utility.
 
 ![Python 3x](https://img.shields.io/badge/python-3.x-blue.svg)
-[![Build Status](https://travis-ci.org/Mottl/GetOldTweets3.svg?branch=master)](https://travis-ci.org/Mottl/GetOldTweets-python3)
+[![Build Status](https://travis-ci.org/Mottl/GetOldTweets3.svg?branch=master)](https://travis-ci.org/Mottl/GetOldTweets3)
 
-GetOldTweets3 is an improvement fork of the original Jefferson Henrique's [GetOldTweets-python](https://github.com/Jefferson-Henrique/GetOldTweets-python). It fixes issues with **Python 3** and adds features such as searching tweets over multiple users accounts.  
-Python 2 support was removed from this fork.
+GetOldTweets3 is an improvement fork of the original Jefferson Henrique's [GetOldTweets-python](https://github.com/Jefferson-Henrique/GetOldTweets-python). It fixes issues with **Python 3** and adds features such as searching tweets over multiple users accounts. Python 2 is not supported.
 
 ## Details
 Twitter Official API has the bother limitation of time constraints, you can't get older tweets than a week. Some tools provide access to older tweets but in the most of them you have to spend some money before.
 I was searching other tools to do this job but I didn't found it, so after analyze how Twitter Search through browser works I understand its flow. Basically when you enter on Twitter page a scroll loader starts, if you scroll down you start to get more and more tweets, all through calls to a JSON provider. After mimic we get the best advantage of Twitter Search on browsers, it can search the deepest oldest tweets.
 
 ## Prerequisites
-Expected package dependencies are listed in the "requirements.txt" file for _pip_, you need to run the following command to get dependencies:
+Required packages are listed in the "requirements.txt" file for _pip_. You need to run the following command to install them:
 ```sh
 pip install -r requirements.txt
 ```
 
-## Components
+## Command line utility
+- **GetOldTweets3:** exports tweets to a specified csv file ("output_got.csv" by default).
+
+### Examples
+- Get help:
+``` bash
+GetOldTweets3 -h
+``` 
+
+- Get tweets by username:
+``` bash
+GetOldTweets3 --username "barackobama" --maxtweets 1
+```
+
+- Get tweets by several usernames (use multiple --username options or a comma/space separated list):
+``` bash
+GetOldTweets3 --username "BarackObama,AngelaMerkeICDU" --username "WhiteHouse"  --maxtweets 1
+```
+(check https://github.com/Mottl/influencers for some prepared lists of usernames)
+
+- Get top tweets from users specified in files and also specific users:
+``` bash
+GetOldTweets3 --usernames-from-file userlist.txt --usernames-from-file additinal_list.txt --username "barackobama,whitehouse" --toptweets
+```
+
+- Get tweets by a query search:
+``` bash
+GetOldTweets3 --querysearch "europe refugees" --maxtweets 1
+```
+
+- Get tweets by a username and bound dates:
+``` bash
+GetOldTweets3 --username "barackobama" --since 2015-09-10 --until "2015-09-12 23:30:15" --maxtweets 1
+```
+
+- Get the last 10 top tweets by a username:
+``` bash
+GetOldTweets3 --username "barackobama" --maxtweets 10 --toptweets
+```
+
+## Python classes
 - **Tweet:** Model class to give some informations about a specific tweet.
   - id (str)
   - permalink (str)
@@ -44,11 +83,7 @@ pip install -r requirements.txt
   - setWithin (str): A distance radius from "near" location (e.g. 15mi).
   - setMaxTweets (int): The maximum number of tweets to be retrieved. If this number is unsetted or lower than 1 all possible tweets will be retrieved.
   
-- **Main:** Examples of how to use.
-
-- **Exporter:** Export tweets to a csv file named "output_got.csv".
-
-## Examples of python usage
+### Examples
 - Get tweets by username(s)
 ``` python
 tweetCriteria = got.manager.TweetCriteria().setUsername("barackobama whitehouse")\
@@ -84,41 +119,4 @@ tweetCriteria = got.manager.TweetCriteria().setUsername("barackobama")\
                                            .setMaxTweets(10)
 tweet = got.manager.TweetManager.getTweets(tweetCriteria)[0]
 print(tweet.text)
-```
-
-## Examples of a command-line usage
-- Get help use:
-``` bash
-python3 Exporter.py -h
-``` 
-
-- Get tweets by username:
-``` bash
-python3 Exporter.py --username "barackobama" --maxtweets 1
-```
-
-- Get tweets by several usernames (use multiple --username options or a comma/space separated list):
-``` bash
-python3 Exporter.py --username "BarackObama,AngelaMerkeICDU" --username "WhiteHouse"  --maxtweets 1
-```
-(check https://github.com/Mottl/influencers for some prepared lists of usernames)
-
-- Get top tweets from users specified in files and also specific users:
-``` bash
-python3 Exporter.py --usernames-from-file userlist.txt --usernames-from-file additinal_list.txt --username "barackobama,whitehouse" --toptweets
-```
-
-- Get tweets by a query search:
-``` bash
-python3 Exporter.py --querysearch "europe refugees" --maxtweets 1
-```
-
-- Get tweets by a username and bound dates:
-``` bash
-python3 Exporter.py --username "barackobama" --since 2015-09-10 --until "2015-09-12 23:30:15" --maxtweets 1
-```
-
-- Get the last 10 top tweets by a username:
-``` bash
-python3 Exporter.py --username "barackobama" --maxtweets 10 --toptweets
 ```
