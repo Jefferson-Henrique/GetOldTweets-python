@@ -1,5 +1,5 @@
 # GetOldTweets3
-A python3 library for accessing old tweets and a corresponding command-line utility.
+A Python 3 library and a corresponding command line utility for accessing old tweets.
 
 ![Python 3x](https://img.shields.io/badge/python-3.x-blue.svg)
 [![Build Status](https://travis-ci.org/Mottl/GetOldTweets3.svg?branch=master)](https://travis-ci.org/Mottl/GetOldTweets3)
@@ -17,7 +17,7 @@ pip install -r requirements.txt
 ```
 
 ## Command line utility
-- **GetOldTweets3:** exports tweets to a specified csv file ("output_got.csv" by default).
+**GetOldTweets3:** exports tweets to a specified csv file ("output_got.csv" by default).
 
 ### Examples
 - Get help:

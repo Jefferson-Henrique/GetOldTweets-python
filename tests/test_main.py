@@ -6,6 +6,8 @@ import sys
 if sys.version_info[0] < 3:
     raise Exception("Python 2.x is not supported. Please upgrade to 3.x")
 
+sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
+
 import GetOldTweets3 as got
 
 def test_Username():
