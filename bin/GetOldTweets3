@@ -1,21 +1,51 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+"""To use this script you can pass the following attributes:
+          username: A username or a list of usernames (comma or space separated)
+                    of a specific twitter account(s) (with or without @)
+username-from-file: a file with a list of usernames,
+             since: A lower bound date in UTC (yyyy-mm-dd or yyyy-mm-dd HH:MM:SS)
+             until: An upper bound date in UTC (yyyy-mm-dd or yyyy-mm-dd HH:MM:SS)
+       querysearch: A query text to be matched
+              near: A reference location area from where tweets were generated
+            within: A distance radius from "near" location (e.g. 15mi)
+         maxtweets: The maximum number of tweets to retrieve
+         toptweets: Only the tweets provided as top tweets by Twitter (no parameters required)
+            output: A filename to export the results (default is "output_got.csv")
+
+Examples:
+# Example 1 - Get tweets by username
+Exporter.py --username "barackobama" --maxtweets 1
+
+# Example 2 - Get tweets by several usernames (use multiple --username options
+# or a comma/space separated list):
+Exporter.py --username "BarackObama,AngelaMerkeICDU" --username "WhiteHouse" --maxtweets 10
+
+# Example 3 - Get top tweets from users specified in files and also specific users:
+Exporter.py --usernames-from-file userlist.txt --usernames-from-file additinal_list.txt --username "barackobama whitehouse" --toptweets
+
+# Example 4 - Get tweets by query search
+python3 Exporter.py --querysearch "europe refugees" --maxtweets 10
+
+# Example 5 - Get tweets by username and bound dates
+python3 Exporter.py --username "barackobama" --since 2015-09-10 --until "2015-09-12 23:30:15" --maxtweets 10
+
+# Example 6 - Get the last 10 top tweets by username
+python3 Exporter.py --username "barackobama" --maxtweets 10 --toptweets
+"""
 
 import os, sys, re, getopt
 if sys.version_info[0] < 3:
     raise Exception("Python 2.x is not supported. Please upgrade to 3.x")
-import got
+import GetOldTweets3 as got
 
 def main(argv):
-
     if len(argv) == 0:
         print('You must pass some parameters. Use \"-h\" to help.')
         return
 
     if len(argv) == 1 and argv[0] == '-h':
-        f = open('exporter_help_text.txt', 'r')
-        print(f.read())
-        f.close()
+        print(__doc__)
         return
 
     try:
