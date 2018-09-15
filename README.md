@@ -1,6 +1,7 @@
 # GetOldTweets3
 A Python 3 library and a corresponding command line utility for accessing old tweets.
 
+[![pypi](https://img.shields.io/pypi/v/GetOldTweets3.svg)](https://pypi.org/project/GetOldTweets3/)
 ![Python 3x](https://img.shields.io/badge/python-3.x-blue.svg)
 [![Build Status](https://travis-ci.org/Mottl/GetOldTweets3.svg?branch=master)](https://travis-ci.org/Mottl/GetOldTweets3)
 
