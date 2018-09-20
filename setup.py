@@ -16,6 +16,7 @@ setuptools.setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/Mottl/GetOldTweets3",
+    keywords="twitter tweets",
     packages=setuptools.find_packages(),
     scripts=['bin/GetOldTweets3'],
     classifiers=[
@@ -28,5 +29,6 @@ setuptools.setup(
         "Operating System :: OS Independent",
         "Topic :: Internet :: WWW/HTTP :: Dynamic Content :: CGI Tools/Libraries",
     ],
+    python_requires='>=3.4',
     install_requires=INSTALL_REQUIRES
 )
