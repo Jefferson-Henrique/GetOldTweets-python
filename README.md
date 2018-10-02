@@ -13,7 +13,7 @@ I was searching other tools to do this job but I didn't found it, so after analy
 
 ## Installation
 Use `pip install GetOldTweets3`  
-or `pip install -e https://github.com/Mottl/GetOldTweets3`
+or `pip install -e git+https://github.com/Mottl/GetOldTweets3#egg=GetOldTweets3`
 
 ## Command line utility
 **GetOldTweets3:** exports tweets to a specified csv file ("output_got.csv" by default).
