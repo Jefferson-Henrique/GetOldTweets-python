@@ -13,44 +13,44 @@ I was searching other tools to do this job but I didn't found it, so after analy
 
 ## Installation
 Use `pip install GetOldTweets3`  
-or `pip install -e https://github.com/Mottl/GetOldTweets3`
+or `pip install -e git+https://github.com/Mottl/GetOldTweets3#egg=GetOldTweets3`
 
 ## Command line utility
 **GetOldTweets3:** exports tweets to a specified csv file ("output_got.csv" by default).
 
 ### Examples
-- Get help:
+**Get help:**
 ``` bash
 GetOldTweets3 -h
 ``` 
 
-- Get tweets by username:
+**Get tweets by username:**
 ``` bash
 GetOldTweets3 --username "barackobama" --maxtweets 1
 ```
 
-- Get tweets by several usernames (use multiple --username options or a comma/space separated list):
+**Get tweets by several usernames** (use multiple --username options or a comma/space separated list):
 ``` bash
 GetOldTweets3 --username "BarackObama,AngelaMerkeICDU" --username "WhiteHouse"  --maxtweets 1
 ```
 (check https://github.com/Mottl/influencers for some prepared lists of usernames)
 
-- Get top tweets from users specified in files and also specific users:
+**Get top tweets from users specified in files and also specific users:**
 ``` bash
 GetOldTweets3 --usernames-from-file userlist.txt --usernames-from-file additinal_list.txt --username "barackobama,whitehouse" --toptweets
 ```
 
-- Get tweets by a query search:
+**Get tweets by a query search**:
 ``` bash
 GetOldTweets3 --querysearch "europe refugees" --maxtweets 1
 ```
 
-- Get tweets by a username and bound dates:
+**Get tweets by a username and bound dates:**
 ``` bash
 GetOldTweets3 --username "barackobama" --since 2015-09-10 --until "2015-09-12 23:30:15" --maxtweets 1
 ```
 
-- Get the last 10 top tweets by a username:
+**Get the last 10 top tweets by a username:**
 ``` bash
 GetOldTweets3 --username "barackobama" --maxtweets 10 --toptweets
 ```
@@ -83,7 +83,7 @@ GetOldTweets3 --username "barackobama" --maxtweets 10 --toptweets
   - setMaxTweets (int): The maximum number of tweets to be retrieved. If this number is unsetted or lower than 1 all possible tweets will be retrieved.
   
 ### Examples
-- Get tweets by username(s)
+**Get tweets by username(s):**
 ``` python
 import GetOldTweets3 as got
 
@@ -93,7 +93,7 @@ tweet = got.manager.TweetManager.getTweets(tweetCriteria)[0]
 print(tweet.text)
 ```
 
-- Get tweets by query search
+**Get tweets by query search:**
 ``` python
 tweetCriteria = got.manager.TweetCriteria().setQuerySearch('europe refugees')\
                                            .setSince("2015-05-01")\
@@ -103,7 +103,7 @@ tweet = got.manager.TweetManager.getTweets(tweetCriteria)[0]
 print(tweet.text)
 ```
 
-- Get tweets by username and bound dates
+**Get tweets by username and bound dates:**
 ``` python
 tweetCriteria = got.manager.TweetCriteria().setUsername("barackobama")\
                                            .setSince("2015-09-10")\
@@ -113,7 +113,7 @@ tweet = got.manager.TweetManager.getTweets(tweetCriteria)[0]
 print(tweet.text)
 ```
 
-- Get the last 10 top tweets by username
+**Get the last 10 top tweets by username:**
 ``` python
 tweetCriteria = got.manager.TweetCriteria().setUsername("barackobama")\
                                            .setTopTweets(True)\
