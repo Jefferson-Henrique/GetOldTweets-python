@@ -56,7 +56,7 @@ GetOldTweets3 --username "barackobama" --maxtweets 10 --toptweets
 ```
 
 ## Python classes
-- **Tweet:** Model class to give some informations about a specific tweet.
+- **Tweet:** Model class that describes a specific tweet.
   - id (str)
   - permalink (str)
   - username (str)
