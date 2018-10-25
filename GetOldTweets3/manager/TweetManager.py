@@ -54,6 +54,7 @@ class TweetManager:
                     break
 
                 refreshCursor = json['min_position']
+                print("min_position =", refreshCursor)
                 scrapedTweets = PyQuery(json['items_html'])
                 #Remove incomplete tweets withheld by Twitter Guidelines
                 scrapedTweets.remove('div.withheld-tweet')
@@ -149,7 +150,7 @@ class TweetManager:
             urlLang = 'lang=' + tweetCriteria.lang + '&'
         else:
             urlLang = ''
-        url = url % (urllib.parse.quote(urlGetData.strip()), urlLang, refreshCursor)
+        url = url % (urllib.parse.quote(urlGetData.strip()), urlLang, urllib.parse.quote(refreshCursor))
 
         headers = [
             ('Host', "twitter.com"),
