@@ -54,7 +54,6 @@ class TweetManager:
                     break
 
                 refreshCursor = json['min_position']
-                print("min_position =", refreshCursor)
                 scrapedTweets = PyQuery(json['items_html'])
                 #Remove incomplete tweets withheld by Twitter Guidelines
                 scrapedTweets.remove('div.withheld-tweet')
