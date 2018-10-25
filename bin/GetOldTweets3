@@ -15,23 +15,23 @@ username-from-file: a file with a list of usernames,
 
 Examples:
 # Example 1 - Get tweets by username
-Exporter.py --username "barackobama" --maxtweets 1
+GetOldTweets3 --username "barackobama" --maxtweets 1
 
 # Example 2 - Get tweets by several usernames (use multiple --username options
 # or a comma/space separated list):
-Exporter.py --username "BarackObama,AngelaMerkeICDU" --username "WhiteHouse" --maxtweets 10
+GetOldTweets3 --username "BarackObama,AngelaMerkeICDU" --username "WhiteHouse" --maxtweets 10
 
 # Example 3 - Get top tweets from users specified in files and also specific users:
-Exporter.py --usernames-from-file userlist.txt --usernames-from-file additinal_list.txt --username "barackobama whitehouse" --toptweets
+GetOldTweets3 --usernames-from-file userlist.txt --usernames-from-file additinal_list.txt --username "barackobama whitehouse" --toptweets
 
 # Example 4 - Get tweets by query search
-python3 Exporter.py --querysearch "europe refugees" --maxtweets 10
+GetOldTweets3 --querysearch "europe refugees" --maxtweets 10
 
 # Example 5 - Get tweets by username and bound dates
-python3 Exporter.py --username "barackobama" --since 2015-09-10 --until "2015-09-12 23:30:15" --maxtweets 10
+GetOldTweets3 --username "barackobama" --since 2015-09-10 --until "2015-09-12 23:30:15" --maxtweets 10
 
 # Example 6 - Get the last 10 top tweets by username
-python3 Exporter.py --username "barackobama" --maxtweets 10 --toptweets
+GetOldTweets3 --username "barackobama" --maxtweets 10 --toptweets
 """
 
 import os, sys, re, getopt
