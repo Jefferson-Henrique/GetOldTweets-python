@@ -31,7 +31,7 @@ GetOldTweets3 --username "barackobama" --maxtweets 1
 
 **Get tweets by several usernames** (use multiple --username options or a comma/space separated list):
 ``` bash
-GetOldTweets3 --username "BarackObama,AngelaMerkeICDU" --username "WhiteHouse"  --maxtweets 1
+GetOldTweets3 --username "BarackObama,AngelaMerkeICDU" --username "WhiteHouse" --maxtweets 1
 ```
 (check https://github.com/Mottl/influencers for some prepared lists of usernames)
 
@@ -47,7 +47,7 @@ GetOldTweets3 --querysearch "europe refugees" --maxtweets 1
 
 **Get tweets by a username and bound dates:**
 ``` bash
-GetOldTweets3 --username "barackobama" --since 2015-09-10 --until "2015-09-12 23:30:15" --maxtweets 1
+GetOldTweets3 --username "barackobama" --since 2015-09-10 --until 2015-09-12 --maxtweets 1
 ```
 
 **Get the last 10 top tweets by a username:**
@@ -74,8 +74,8 @@ GetOldTweets3 --username "barackobama" --maxtweets 10 --toptweets
 
 - **TwitterCriteria:** A collection of search parameters to be used together with **TweetManager**.
   - setUsername (str or iterable): An optional specific username(s) from a twitter account (with or without "@").
-  - setSince (str. "yyyy-mm-dd" or "yyyy-mm-dd HH:MM:SS"): A lower bound date/time in UTC to restrict search.
-  - setUntil (str. "yyyy-mm-dd" or "yyyy-mm-dd HH:MM:SS"): An upper bound date/time in UTC to restrict search.
+  - setSince (str. "yyyy-mm-dd"): A lower bound date (UTC) to restrict search.
+  - setUntil (str. "yyyy-mm-dd"): An upper bound date (not included) to restrict search.
   - setQuerySearch (str): A query text to be matched.
   - setTopTweets (bool): If True only the Top Tweets will be retrieved.
   - setNear(str): A reference location area from where tweets were generated.
@@ -107,7 +107,7 @@ print(tweet.text)
 ``` python
 tweetCriteria = got.manager.TweetCriteria().setUsername("barackobama")\
                                            .setSince("2015-09-10")\
-                                           .setUntil("2015-09-12  23:30:15")\
+                                           .setUntil("2016-01-01")\
                                            .setMaxTweets(1)
 tweet = got.manager.TweetManager.getTweets(tweetCriteria)[0]
 print(tweet.text)

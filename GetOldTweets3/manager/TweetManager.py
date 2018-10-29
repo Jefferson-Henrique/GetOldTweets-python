@@ -11,7 +11,7 @@ class TweetManager:
         pass
 
     @staticmethod
-    def getTweets(tweetCriteria, receiveBuffer=None, bufferLength=100, proxy=None):
+    def getTweets(tweetCriteria, receiveBuffer=None, bufferLength=100, proxy=None, debug=False):
         """Get tweets that match the tweetCriteria parameter
         A static method.
 
@@ -21,6 +21,7 @@ class TweetManager:
         receiveBuffer : callable, a function that will be called upon a getting next `bufferLength' tweets
         bufferLength: int, the number of tweets to pass to `receiveBuffer' function
         proxy: str, a proxy server to use
+        debug: bool, output debug information
         """
         results = []
         resultsAux = []
@@ -49,7 +50,7 @@ class TweetManager:
 
             active = True
             while active:
-                json = TweetManager.getJsonReponse(tweetCriteria, refreshCursor, cookieJar, proxy)
+                json = TweetManager.getJsonReponse(tweetCriteria, refreshCursor, cookieJar, proxy, debug=debug)
                 if len(json['items_html'].strip()) == 0:
                     break
 
@@ -118,7 +119,7 @@ class TweetManager:
         return results
 
     @staticmethod
-    def getJsonReponse(tweetCriteria, refreshCursor, cookieJar, proxy):
+    def getJsonReponse(tweetCriteria, refreshCursor, cookieJar, proxy, debug=False):
         """Invoke an HTTP query to Twitter.
         Should not be used as an API function. A static method.
         """
@@ -167,6 +168,9 @@ class TweetManager:
             opener = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(cookieJar))
         opener.addheaders = headers
 
+        if debug:
+            print(url)
+            print('\n'.join(h[0]+': '+h[1] for h in headers))
         try:
             response = opener.open(url)
             jsonResponse = response.read()
@@ -176,6 +180,16 @@ class TweetManager:
             sys.exit()
             return
 
-        dataJson = json.loads(jsonResponse.decode())
+        s_json = jsonResponse.decode()
+
+        try:
+            dataJson = json.loads(s_json)
+        except:
+            print("Error parsing JSON: %s" % s_json)
+            sys.exit()
+
+        if debug:
+            print(s_json)
+            print("---\n")
 
         return dataJson

@@ -4,8 +4,8 @@
           username: A username or a list of usernames (comma or space separated)
                     of a specific twitter account(s) (with or without @)
 username-from-file: a file with a list of usernames,
-             since: A lower bound date in UTC (yyyy-mm-dd or yyyy-mm-dd HH:MM:SS)
-             until: An upper bound date in UTC (yyyy-mm-dd or yyyy-mm-dd HH:MM:SS)
+             since: A lower bound date in UTC (yyyy-mm-dd)
+             until: An upper bound date in UTC (yyyy-mm-dd) (not included)
        querysearch: A query text to be matched
               near: A reference location area from where tweets were generated
             within: A distance radius from "near" location (e.g. 15mi)
@@ -27,8 +27,8 @@ GetOldTweets3 --usernames-from-file userlist.txt --usernames-from-file additinal
 # Example 4 - Get tweets by query search
 GetOldTweets3 --querysearch "europe refugees" --maxtweets 10
 
-# Example 5 - Get tweets by username and bound dates
-GetOldTweets3 --username "barackobama" --since 2015-09-10 --until "2015-09-12 23:30:15" --maxtweets 10
+# Example 5 - Get tweets by username and bound dates (until date is not included)
+GetOldTweets3 --username "barackobama" --since 2015-09-10 --until 2015-09-12 --maxtweets 10
 
 # Example 6 - Get the last 10 top tweets by username
 GetOldTweets3 --username "barackobama" --maxtweets 10 --toptweets
@@ -37,6 +37,7 @@ GetOldTweets3 --username "barackobama" --maxtweets 10 --toptweets
 import os, sys, re, getopt
 if sys.version_info[0] < 3:
     raise Exception("Python 2.x is not supported. Please upgrade to 3.x")
+
 import GetOldTweets3 as got
 
 def main(argv):
@@ -58,11 +59,13 @@ def main(argv):
                                               "querysearch=",
                                               "toptweets",
                                               "maxtweets=",
-                                              "output="))
+                                              "output=",
+                                              "debug"))
 
         tweetCriteria = got.manager.TweetCriteria()
         outputFileName = "output_got.csv"
 
+        debug = False
         usernames = set()
         username_files = set()
         for opt, arg in opts:
@@ -97,6 +100,13 @@ def main(argv):
 
             elif opt == '--output':
                 outputFileName = arg
+
+            elif opt == '--debug':
+                debug = True
+
+        if debug:
+            print(' '.join(sys.argv))
+            print("GetOldTweets3", got.__version__)
 
         if username_files:
             for uf in username_files:
@@ -150,7 +160,7 @@ def main(argv):
                 print(cnt, end=' ', flush=True)
 
         print("Downloading tweets...")
-        got.manager.TweetManager.getTweets(tweetCriteria, receiveBuffer)
+        got.manager.TweetManager.getTweets(tweetCriteria, receiveBuffer, debug=debug)
 
     except getopt.GetoptError as err:
         print('Arguments parser error, try -h')
