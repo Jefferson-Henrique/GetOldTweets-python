@@ -123,7 +123,9 @@ class TweetManager:
         """Invoke an HTTP query to Twitter.
         Should not be used as an API function. A static method.
         """
-        url = "https://twitter.com/i/search/timeline?f=tweets&q=%s&src=typd&%smax_position=%s"
+        url = ("https://twitter.com/i/search/timeline?vertical=news%s&src=typd&%s"
+               "&include_available_features=1&include_entities=1&max_position=%s"
+               "&reset_error_state=false")
 
         urlGetData = ''
         if hasattr(tweetCriteria, 'username'):
@@ -154,9 +156,9 @@ class TweetManager:
 
         headers = [
             ('Host', "twitter.com"),
-            ('User-Agent', "Mozilla/5.0 (Windows NT 6.1; Win64; x64)"),
+            ('User-Agent', "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:63.0) Gecko/20100101 Firefox/63.0"),
             ('Accept', "application/json, text/javascript, */*; q=0.01"),
-            ('Accept-Language', "de,en-US;q=0.7,en;q=0.3"),
+            ('Accept-Language', "en-US,en;q=0.5"),
             ('X-Requested-With', "XMLHttpRequest"),
             ('Referer', url),
             ('Connection', "keep-alive")
