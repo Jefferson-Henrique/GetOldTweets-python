@@ -123,7 +123,7 @@ class TweetManager:
         """Invoke an HTTP query to Twitter.
         Should not be used as an API function. A static method.
         """
-        url = ("https://twitter.com/i/search/timeline?vertical=news%s&src=typd&%s"
+        url = ("https://twitter.com/i/search/timeline?vertical=news&q=%s&src=typd&%s"
                "&include_available_features=1&include_entities=1&max_position=%s"
                "&reset_error_state=false")
 
