@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import json, re, datetime, sys, http.cookiejar
+import json, re, datetime, sys, random, http.cookiejar
 import urllib.request, urllib.parse, urllib.error
 from pyquery import PyQuery
 from .. import models
@@ -9,6 +9,17 @@ class TweetManager:
     """A class for accessing the Twitter's search engine"""
     def __init__(self):
         pass
+
+    user_agents = [
+        'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:63.0) Gecko/20100101 Firefox/63.0',
+        'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:62.0) Gecko/20100101 Firefox/62.0',
+        'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:61.0) Gecko/20100101 Firefox/61.0',
+        'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:63.0) Gecko/20100101 Firefox/63.0',
+        'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36',
+        'Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36',
+        'Mozilla/5.0 (Windows NT 6.1; Trident/7.0; rv:11.0) like Gecko',
+        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0 Safari/605.1.15',
+    ]
 
     @staticmethod
     def getTweets(tweetCriteria, receiveBuffer=None, bufferLength=100, proxy=None, debug=False):
@@ -26,6 +37,7 @@ class TweetManager:
         results = []
         resultsAux = []
         cookieJar = http.cookiejar.CookieJar()
+        user_agent = random.choice(TweetManager.user_agents)
 
         all_usernames = []
         usernames_per_batch = 20
@@ -50,7 +62,7 @@ class TweetManager:
 
             active = True
             while active:
-                json = TweetManager.getJsonReponse(tweetCriteria, refreshCursor, cookieJar, proxy, debug=debug)
+                json = TweetManager.getJsonReponse(tweetCriteria, refreshCursor, cookieJar, proxy, user_agent, debug=debug)
                 if len(json['items_html'].strip()) == 0:
                     break
 
@@ -119,7 +131,7 @@ class TweetManager:
         return results
 
     @staticmethod
-    def getJsonReponse(tweetCriteria, refreshCursor, cookieJar, proxy, debug=False):
+    def getJsonReponse(tweetCriteria, refreshCursor, cookieJar, proxy, useragent=None, debug=False):
         """Invoke an HTTP query to Twitter.
         Should not be used as an API function. A static method.
         """
@@ -153,10 +165,11 @@ class TweetManager:
         else:
             urlLang = ''
         url = url % (urllib.parse.quote(urlGetData.strip()), urlLang, urllib.parse.quote(refreshCursor))
+        useragent = useragent or TweetManager.user_agents[0]
 
         headers = [
             ('Host', "twitter.com"),
-            ('User-Agent', "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:63.0) Gecko/20100101 Firefox/63.0"),
+            ('User-Agent', useragent),
             ('Accept', "application/json, text/javascript, */*; q=0.01"),
             ('Accept-Language', "en-US,en;q=0.5"),
             ('X-Requested-With', "XMLHttpRequest"),
