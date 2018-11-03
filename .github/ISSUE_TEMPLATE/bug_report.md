@@ -5,6 +5,9 @@ about: Create a report to help us improve
 ---
 
 **Describe the bug**
+Install the latest version of GetOldTweets3 with `pip install GetOldTweets3` or with `pip install -e git+https://github.com/Mottl/GetOldTweets3#egg=GetOldTweets3`
+
+**Describe the bug**
 A clear and concise description of what the bug is.
 
 **debug.log**
