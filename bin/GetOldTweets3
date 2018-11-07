@@ -1,17 +1,18 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """To use this script you can pass the following attributes:
-          username: A username or a list of usernames (comma or space separated)
+       querysearch: a query text to be matched
+          username: a username or a list of usernames (comma or space separated)
                     of a specific twitter account(s) (with or without @)
 username-from-file: a file with a list of usernames,
-             since: A lower bound date in UTC (yyyy-mm-dd)
-             until: An upper bound date in UTC (yyyy-mm-dd) (not included)
-       querysearch: A query text to be matched
-              near: A reference location area from where tweets were generated
-            within: A distance radius from "near" location (e.g. 15mi)
-         maxtweets: The maximum number of tweets to retrieve
-         toptweets: Only the tweets provided as top tweets by Twitter (no parameters required)
-            output: A filename to export the results (default is "output_got.csv")
+             since: a lower bound date in UTC (yyyy-mm-dd)
+             until: an upper bound date in UTC (yyyy-mm-dd) (not included)
+              near: a reference location area from where tweets were generated
+            within: a distance radius from "near" location (e.g. 15mi)
+         toptweets: only the tweets provided as top tweets by Twitter (no parameters required)
+         maxtweets: the maximum number of tweets to retrieve
+              lang: the language of tweets
+            output: a filename to export the results (default is "output_got.csv")
 
 Examples:
 # Example 1 - Get tweets by username
@@ -50,15 +51,16 @@ def main(argv):
         return
 
     try:
-        opts, args = getopt.getopt(argv, "", ("username=",
+        opts, args = getopt.getopt(argv, "", ("querysearch=",
+                                              "username=",
                                               "usernames-from-file=",
-                                              "near=",
-                                              "within=",
                                               "since=",
                                               "until=",
-                                              "querysearch=",
+                                              "near=",
+                                              "within=",
                                               "toptweets",
                                               "maxtweets=",
+                                              "lang=",
                                               "output=",
                                               "debug"))
 
@@ -69,12 +71,15 @@ def main(argv):
         usernames = set()
         username_files = set()
         for opt, arg in opts:
-            if opt == '--username':
+            if opt == '--querysearch':
+                tweetCriteria.querySearch = arg
+
+            elif opt == '--username':
                 usernames_ = [u.lstrip('@') for u in re.split(r'[\s,]+', arg) if u]
                 usernames_ = [u.lower() for u in usernames_ if u]
                 usernames |= set(usernames_)
 
-            if opt == '--usernames-from-file':
+            elif opt == '--usernames-from-file':
                 username_files.add(arg)
 
             elif opt == '--since':
@@ -83,20 +88,20 @@ def main(argv):
             elif opt == '--until':
                 tweetCriteria.until = arg
 
-            elif opt == '--querysearch':
-                tweetCriteria.querySearch = arg
+            elif opt == '--near':
+                tweetCriteria.near = '"' + arg + '"'
+
+            elif opt == '--within':
+                tweetCriteria.within = arg
 
             elif opt == '--toptweets':
                 tweetCriteria.topTweets = True
 
             elif opt == '--maxtweets':
                 tweetCriteria.maxTweets = int(arg)
-            
-            elif opt == '--near':
-                tweetCriteria.near = '"' + arg + '"'
-            
-            elif opt == '--within':
-                tweetCriteria.within = '"' + arg + '"'
+
+            elif opt == '--lang':
+                tweetCriteria.lang = arg
 
             elif opt == '--output':
                 outputFileName = arg

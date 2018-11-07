@@ -55,6 +55,16 @@ GetOldTweets3 --username "barackobama" --since 2015-09-10 --until 2015-09-12 --m
 GetOldTweets3 --username "barackobama" --maxtweets 10 --toptweets
 ```
 
+**Get tweets by a language:**
+``` bash
+GetOldTweets3 --querysearch "bitcoin" --maxtweets 10 --lang cn
+```
+
+**Get tweets by location:**
+``` bash
+GetOldTweets3 --querysearch "bitcoin" --near "Berlin, Germany" --within 15mi
+```
+
 ## Python classes
 - **Tweet:** Model class that describes a specific tweet.
   - id (str)
