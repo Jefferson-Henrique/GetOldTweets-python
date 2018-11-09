@@ -3,6 +3,8 @@ class TweetCriteria:
 
     def __init__(self):
         self.maxTweets = 0
+        self.topTweets = False
+        self.within = "15mi"
 
     def setUsername(self, username):
         """Set username(s) of tweets author(s)
@@ -27,28 +29,40 @@ class TweetCriteria:
         """Set a lower bound date in UTC
         Parameters
         ----------
-        since : str
-
-        `since' parameter should be in one the following formats:
-            yyyy-mm-dd
-            yyyy-mm-dd HH:MM
-            yyyy-mm-dd HH:MM:SS
+        since : str,
+                format: "yyyy-mm-dd"
         """
         self.since = since
         return self
 
     def setUntil(self, until):
-        """Set an upper bound date in UTC
+        """Set an upper bound date in UTC (not included in results)
         Parameters
         ----------
-        until : str
-
-        `until' parameter should be in one the following formats:
-            yyyy-mm-dd
-            yyyy-mm-dd HH:MM
-            yyyy-mm-dd HH:MM:SS
+        until : str,
+                format: "yyyy-mm-dd"
         """
         self.until = until
+        return self
+
+    def setNear(self, near):
+        """Set location to search nearby
+        Parameters
+        ----------
+        near : str,
+               for example "Berlin, Germany"
+        """
+        self.near = near
+        return self
+
+    def setWithin(self, within):
+        """Set the radius for search by location
+        Parameters
+        ----------
+        within : str,
+                 for example "15mi"
+        """
+        self.within = within
         return self
 
     def setQuerySearch(self, querySearch):

@@ -135,11 +135,20 @@ class TweetManager:
         """Invoke an HTTP query to Twitter.
         Should not be used as an API function. A static method.
         """
-        url = ("https://twitter.com/i/search/timeline?f=tweets&vertical=news&q=%s&src=typd&%s"
-               "&include_available_features=1&include_entities=1&max_position=%s"
-               "&reset_error_state=false")
+        url = "https://twitter.com/i/search/timeline?"
+
+        if not tweetCriteria.topTweets:
+            url += "f=tweets&"
+
+        url += ("vertical=news&q=%s&src=typd&%s"
+                "&include_available_features=1&include_entities=1&max_position=%s"
+                "&reset_error_state=false")
 
         urlGetData = ''
+
+        if hasattr(tweetCriteria, 'querySearch'):
+            urlGetData += tweetCriteria.querySearch
+
         if hasattr(tweetCriteria, 'username'):
             if not hasattr(tweetCriteria.username, '__iter__'):
                 tweetCriteria.username = [tweetCriteria.username]
@@ -151,14 +160,14 @@ class TweetManager:
             if usernames:
                 urlGetData += ' OR'.join(usernames)
 
+        if hasattr(tweetCriteria, 'near') and hasattr(tweetCriteria, 'within'):
+            urlGetData += ' near:%s within:%s' % (tweetCriteria.near, tweetCriteria.within)
+
         if hasattr(tweetCriteria, 'since'):
             urlGetData += ' since:' + tweetCriteria.since
 
         if hasattr(tweetCriteria, 'until'):
             urlGetData += ' until:' + tweetCriteria.until
-
-        if hasattr(tweetCriteria, 'querySearch'):
-            urlGetData += ' ' + tweetCriteria.querySearch
 
         if hasattr(tweetCriteria, 'lang'):
             urlLang = 'l=' + tweetCriteria.lang + '&'
@@ -186,16 +195,20 @@ class TweetManager:
         if debug:
             print(url)
             print('\n'.join(h[0]+': '+h[1] for h in headers))
+
         try:
             response = opener.open(url)
             jsonResponse = response.read()
-        except:
-            print("Twitter weird response. Try to open in browser: https://twitter.com/search?q=%s&src=typd" % urllib.parse.quote(urlGetData))
-            print("Unexpected error:", sys.exc_info()[0])
+        except Exception as e:
+            print("An error occured during an HTTP request:", str(e))
+            print("Try to open in browser: https://twitter.com/search?q=%s&src=typd" % urllib.parse.quote(urlGetData))
             sys.exit()
-            return
 
-        s_json = jsonResponse.decode()
+        try:
+            s_json = jsonResponse.decode()
+        except:
+            print("Invalid response from Twitter")
+            sys.exit()
 
         try:
             dataJson = json.loads(s_json)
