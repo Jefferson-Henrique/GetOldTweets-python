@@ -106,7 +106,7 @@ class TweetManager:
 				url = "https://twitter.com/i/search/timeline?q=%s&src=typd&max_position=%s"
 		
 		
-		url = url % (urllib.quote(urlGetData), refreshCursor)
+		url = url % (urllib.quote(urlGetData), urllib.quote(refreshCursor))
 
 		headers = [
 			('Host', "twitter.com"),
