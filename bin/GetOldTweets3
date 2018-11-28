@@ -135,7 +135,7 @@ def main(argv):
                 tweetCriteria.username = usernames.pop()
 
         outputFile = open(outputFileName, "w+", encoding="utf8")
-        outputFile.write('date,username,to,retweets,favorites,text,geo,mentions,hashtags,id,permalink\n')
+        outputFile.write('date,username,to,replies,retweets,favorites,text,geo,mentions,hashtags,id,permalink\n')
 
         cnt = 0
         def receiveBuffer(tweets):
@@ -145,6 +145,7 @@ def main(argv):
                 data = [t.date.strftime("%Y-%m-%d %H:%M:%S"),
                     t.username,
                     t.to or '',
+                    t.replies,
                     t.retweets,
                     t.favorites,
                     '"'+t.text.replace('"','""')+'"',

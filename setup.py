@@ -8,7 +8,7 @@ with open("requirements.txt", "r") as fh:
 
 setuptools.setup(
     name="GetOldTweets3",
-    version="0.0.7",
+    version="0.0.8",
     author="Dmitry Mottl",
     author_email="dmitry.mottl@gmail.com",
     license='MIT',
