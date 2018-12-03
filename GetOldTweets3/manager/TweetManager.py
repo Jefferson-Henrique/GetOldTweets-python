@@ -80,6 +80,9 @@ class TweetManager:
                     tweet = models.Tweet()
 
                     usernames = tweetPQ("span.username.u-dir b").text().split()
+                    if not len(usernames):  # fix for issue #13
+                        continue
+
                     tweet.username = usernames[0]
                     tweet.to = usernames[1] if len(usernames) == 2 else None
                     tweet.text = re.sub(r"\s+", " ", tweetPQ("p.js-tweet-text").text())\

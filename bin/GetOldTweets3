@@ -36,6 +36,8 @@ GetOldTweets3 --username "barackobama" --maxtweets 10 --toptweets
 """
 
 import os, sys, re, getopt
+import traceback
+
 if sys.version_info[0] < 3:
     raise Exception("Python 2.x is not supported. Please upgrade to 3.x")
 
@@ -172,7 +174,11 @@ def main(argv):
         print('Arguments parser error, try -h')
         print('\t' + str(err))
 
+    except KeyboardInterrupt:
+        print("\r\nInterrupted.\r\n")
+
     except Exception as err:
+        print(traceback.format_exc())
         print(str(err))
 
     finally:
