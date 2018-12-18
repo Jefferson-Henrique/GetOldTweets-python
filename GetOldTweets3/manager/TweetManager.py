@@ -62,7 +62,7 @@ class TweetManager:
 
             active = True
             while active:
-                json = TweetManager.getJsonReponse(tweetCriteria, refreshCursor, cookieJar, proxy, user_agent, debug=debug)
+                json = TweetManager.getJsonResponse(tweetCriteria, refreshCursor, cookieJar, proxy, user_agent, debug=debug)
                 if len(json['items_html'].strip()) == 0:
                     break
 
@@ -135,7 +135,7 @@ class TweetManager:
         return results
 
     @staticmethod
-    def getJsonReponse(tweetCriteria, refreshCursor, cookieJar, proxy, useragent=None, debug=False):
+    def getJsonResponse(tweetCriteria, refreshCursor, cookieJar, proxy, useragent=None, debug=False):
         """Invoke an HTTP query to Twitter.
         Should not be used as an API function. A static method.
         """
