@@ -18,7 +18,7 @@ class TweetManager:
 		active = True
 
 		while active:
-			json = TweetManager.getJsonReponse(tweetCriteria, refreshCursor, cookieJar, proxy)
+			json = TweetManager.getJsonResponse(tweetCriteria, refreshCursor, cookieJar, proxy)
 			if len(json['items_html'].strip()) == 0:
 				break
 
@@ -87,7 +87,7 @@ class TweetManager:
 		return results
 	
 	@staticmethod
-	def getJsonReponse(tweetCriteria, refreshCursor, cookieJar, proxy):
+	def getJsonResponse(tweetCriteria, refreshCursor, cookieJar, proxy):
 		url = "https://twitter.com/i/search/timeline?f=tweets&q=%s&src=typd&%smax_position=%s"
 		
 		urlGetData = ''
