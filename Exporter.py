@@ -13,7 +13,7 @@ def main(argv):
 
 	if len(argv) == 1 and argv[0] == '-h':
 		f = open('exporter_help_text.txt', 'r')
-		print f.read()
+		print(f.read())
 		f.close()
 
 		return
