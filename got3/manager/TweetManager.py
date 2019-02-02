@@ -54,6 +54,12 @@ class TweetManager:
 						urls.append((link.attrib["data-expanded-url"]))
 					except KeyError:
 						pass
+				emojis = []
+				for emoji in tweetPQ("p.js-tweet-text img"):
+					try:
+						emojis.append(emoji.attrib["alt"])
+					except KeyError:
+						pass
 				tweet.id = id
 				tweet.permalink = 'https://twitter.com' + permalink
 				tweet.username = usernameTweet
@@ -67,6 +73,7 @@ class TweetManager:
 				tweet.hashtags = " ".join(re.compile('(#\\w*)').findall(tweet.text))
 				tweet.geo = geo
 				tweet.urls = ",".join(urls)
+				tweet.emojis = " ".join(emojis)
 				tweet.author_id = user_id
 				
 				results.append(tweet)
