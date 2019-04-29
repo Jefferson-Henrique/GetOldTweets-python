@@ -57,31 +57,35 @@ def main(argv):
             elif opt == '--lang':
                 tweetCriteria.lang = arg
 
-        outputFile = csv.writer(open(outputFileName, "w"), encoding='utf-8-sig', delimiter=',', quotechar='"', quoting=csv.QUOTE_ALL)
+        outputFile = csv.writer(open(outputFileName, "w", encoding='utf-8-sig'), delimiter=',', quotechar='"', quoting=csv.QUOTE_ALL)
 
         outputFile.writerow(
-            # ['username','date','retweets','favorites','text','mentions','hashtags','id','permalink', 'emoji'])
-            ['username','date','retweets','favorites','text','geo','mentions','hashtags','id','permalink', 'emoji'])
+            ['username','date','retweets','favorites','text','mentions','hashtags','id','permalink', 'emoji'])
+            # ['username','date','retweets','favorites','text','geo','mentions','hashtags','id','permalink', 'emoji'])
 
         print('Collecting tweets...\n')
 
         def receiveBuffer(tweets):
             for t in tweets:
-                print("> Tweets :" + t.text + "\n\n")
+                # print("> Tweets :" + t.text + "\n\n")
                 add_list = []
+                # print(t.emojis)
                 if (isinstance(t.emojis, list)):
                     emoji = ' '.join(t.emojis)
                 else:
                     emoji = t.emojis
+                print(emoji)
+                # for each in [t.username, t.date.strftime("%Y-%m-%d %H:%M"), t.retweets, t.favorites, t.text, t.geo, t.mentions, t.hashtags, t.id, t.permalink, emoji]:
                 for each in [t.username, t.date.strftime("%Y-%m-%d %H:%M"), t.retweets, t.favorites, t.text, t.mentions, t.hashtags, t.id, t.permalink, emoji]:
-                    if type(each) is str:
-                        valid_s = ''
-                        for ch in each:
-                            if ord(ch) in range(128):
-                                valid_s+=ch
-                        add_list.append(valid_s)
-                    else:
-                        add_list.append(each)
+                    # if type(each) is str:
+                    #     for ch in each:
+                    #         # if ord(ch) in range(128):
+                    #         ch+=ch
+                    #     # print("valid_s : " + valid_s)
+                    #     add_list.append(ch)
+                    # else:
+                    add_list.append(each)
+                print(add_list)
                 outputFile.writerow(add_list)
             print('%d tweets saved on file...\n' % len(tweets))
 

@@ -1,4 +1,5 @@
 output_got.csv
+.idea
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
