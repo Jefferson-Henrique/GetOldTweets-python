@@ -1,79 +1,97 @@
 # -*- coding: utf-8 -*-
-import sys,getopt,datetime,codecs
+import sys, getopt, datetime, codecs, csv
+
 if sys.version_info[0] < 3:
     import got
 else:
     import got3 as got
 
+
 def main(argv):
+    if len(argv) == 0:
+        print('You must pass some parameters. Use \"-h\" to help.')
+        return
 
-	if len(argv) == 0:
-		print('You must pass some parameters. Use \"-h\" to help.')
-		return
+    if len(argv) == 1 and argv[0] == '-h':
+        f = open('exporter_help_text.txt', 'r')
+        print(f.read())
+        f.close()
 
-	if len(argv) == 1 and argv[0] == '-h':
-		f = open('exporter_help_text.txt', 'r')
-		print f.read()
-		f.close()
+        return
 
-		return
+    try:
+        opts, args = getopt.getopt(argv, "", (
+        "username=", "near=", "within=", "since=", "until=", "querysearch=", "toptweets", "maxtweets=", "output=", "lang="))
 
-	try:
-		opts, args = getopt.getopt(argv, "", ("username=", "near=", "within=", "since=", "until=", "querysearch=", "toptweets", "maxtweets=", "output="))
+        tweetCriteria = got.manager.TweetCriteria()
+        outputFileName = "output_got.csv"
 
-		tweetCriteria = got.manager.TweetCriteria()
-		outputFileName = "output_got.csv"
+        for opt, arg in opts:
+            if opt == '--username':
+                tweetCriteria.username = arg
 
-		for opt,arg in opts:
-			if opt == '--username':
-				tweetCriteria.username = arg
+            elif opt == '--since':
+                tweetCriteria.since = arg
 
-			elif opt == '--since':
-				tweetCriteria.since = arg
+            elif opt == '--until':
+                tweetCriteria.until = arg
 
-			elif opt == '--until':
-				tweetCriteria.until = arg
+            elif opt == '--querysearch':
+                tweetCriteria.querySearch = arg
 
-			elif opt == '--querysearch':
-				tweetCriteria.querySearch = arg
+            elif opt == '--toptweets':
+                tweetCriteria.topTweets = True
 
-			elif opt == '--toptweets':
-				tweetCriteria.topTweets = True
+            elif opt == '--maxtweets':
+                tweetCriteria.maxTweets = int(arg)
 
-			elif opt == '--maxtweets':
-				tweetCriteria.maxTweets = int(arg)
-			
-			elif opt == '--near':
-				tweetCriteria.near = '"' + arg + '"'
-			
-			elif opt == '--within':
-				tweetCriteria.within = '"' + arg + '"'
+            elif opt == '--near':
+                tweetCriteria.near = '"' + arg + '"'
 
-			elif opt == '--within':
-				tweetCriteria.within = '"' + arg + '"'
+            elif opt == '--within':
+                tweetCriteria.within = '"' + arg + '"'
 
-			elif opt == '--output':
-				outputFileName = arg
-				
-		outputFile = codecs.open(outputFileName, "w+", "utf-8")
+            elif opt == '--output':
+                outputFileName = arg
 
-		outputFile.write('username;date;retweets;favorites;text;geo;mentions;hashtags;id;permalink')
+            elif opt == '--lang':
+                tweetCriteria.lang = arg
 
-		print('Searching...\n')
+        outputFile = csv.writer(open(outputFileName, "w"), encoding='utf-8-sig', delimiter=',', quotechar='"', quoting=csv.QUOTE_ALL)
 
-		def receiveBuffer(tweets):
-			for t in tweets:
-				outputFile.write(('\n%s;%s;%d;%d;"%s";%s;%s;%s;"%s";%s' % (t.username, t.date.strftime("%Y-%m-%d %H:%M"), t.retweets, t.favorites, t.text, t.geo, t.mentions, t.hashtags, t.id, t.permalink)))
-			outputFile.flush()
-			print('More %d saved on file...\n' % len(tweets))
+        outputFile.writerow(
+            # ['username','date','retweets','favorites','text','mentions','hashtags','id','permalink', 'emoji'])
+            ['username','date','retweets','favorites','text','geo','mentions','hashtags','id','permalink', 'emoji'])
 
-		got.manager.TweetManager.getTweets(tweetCriteria, receiveBuffer)
+        print('Collecting tweets...\n')
 
-	except arg:
-		print('Arguments parser error, try -h' + arg)
-	finally:
-		outputFile.close()
-		print('Done. Output file generated "%s".' % outputFileName)
+        def receiveBuffer(tweets):
+            for t in tweets:
+                print("> Tweets :" + t.text + "\n\n")
+                add_list = []
+                if (isinstance(t.emojis, list)):
+                    emoji = ' '.join(t.emojis)
+                else:
+                    emoji = t.emojis
+                for each in [t.username, t.date.strftime("%Y-%m-%d %H:%M"), t.retweets, t.favorites, t.text, t.mentions, t.hashtags, t.id, t.permalink, emoji]:
+                    if type(each) is str:
+                        valid_s = ''
+                        for ch in each:
+                            if ord(ch) in range(128):
+                                valid_s+=ch
+                        add_list.append(valid_s)
+                    else:
+                        add_list.append(each)
+                outputFile.writerow(add_list)
+            print('%d tweets saved on file...\n' % len(tweets))
+
+        got.manager.TweetManager.getTweets(tweetCriteria, receiveBuffer)
+
+    except arg:
+        print('Arguments parse error, try -h' + arg)
+    finally:
+        print('Done. Output file generated "%s".' % outputFileName)
+
 
 if __name__ == '__main__':
-	main(sys.argv[1:])
+    main(sys.argv[1:])
