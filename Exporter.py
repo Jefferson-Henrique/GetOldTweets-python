@@ -60,8 +60,8 @@ def main(argv):
         outputFile = csv.writer(open(outputFileName, "w", encoding='utf-8-sig'), delimiter=',', quotechar='"', quoting=csv.QUOTE_ALL)
 
         outputFile.writerow(
-            ['username','date','retweets','favorites','text','mentions','hashtags','id','permalink', 'emoji'])
-            # ['username','date','retweets','favorites','text','geo','mentions','hashtags','id','permalink', 'emoji'])
+            # ['username','date','retweets','favorites','text','mentions','hashtags','id','permalink', 'emoji'])
+            ['username','date','retweets','favorites','text','geo','mentions','hashtags','id','permalink', 'emoji'])
 
         print('Collecting tweets...\n')
 
@@ -75,8 +75,8 @@ def main(argv):
                 else:
                     emoji = t.emojis
                 print(emoji)
-                # for each in [t.username, t.date.strftime("%Y-%m-%d %H:%M"), t.retweets, t.favorites, t.text, t.geo, t.mentions, t.hashtags, t.id, t.permalink, emoji]:
-                for each in [t.username, t.date.strftime("%Y-%m-%d %H:%M"), t.retweets, t.favorites, t.text, t.mentions, t.hashtags, t.id, t.permalink, emoji]:
+                for each in [t.username, t.date.strftime("%Y-%m-%d %H:%M"), t.retweets, t.favorites, t.text, t.geo, t.mentions, t.hashtags, t.id, t.permalink, emoji]:
+                # for each in [t.username, t.date.strftime("%Y-%m-%d %H:%M"), t.retweets, t.favorites, t.text, t.mentions, t.hashtags, t.id, t.permalink, emoji]:
                     # if type(each) is str:
                     #     for ch in each:
                     #         # if ord(ch) in range(128):
