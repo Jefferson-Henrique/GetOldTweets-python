@@ -2,6 +2,7 @@
 import sys
 import getopt
 import csv
+from datetime import datetime
 
 if sys.version_info[0] < 3:
     import got
@@ -102,4 +103,8 @@ def main(argv):
 
 
 if __name__ == '__main__':
+    startTime = datetime.now()
+    print(startTime)
     main(sys.argv[1:])
+    print(datetime.now() - startTime)
+

@@ -68,7 +68,7 @@ class TweetManager:
                     i+=1
                     # print(text + '\n')
                 # html tags to python string using beautifulsoup
-                text = str(BeautifulSoup(text, features='lxml').get_text()).replace('\n', ' ')
+                text = str(BeautifulSoup(text, features='lxml').get_text()).replace('\n', '  ')
                 # text = text.replace('\n', ' ')
                 retweets = int(tweetPQ("span.ProfileTweet-action--retweet span.ProfileTweet-actionCount").attr("data-tweet-stat-count").replace(",", ""))
                 favorites = int(tweetPQ("span.ProfileTweet-action--favorite span.ProfileTweet-actionCount").attr("data-tweet-stat-count").replace(",", ""))
