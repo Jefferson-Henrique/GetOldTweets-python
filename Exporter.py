@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
-import sys, getopt, datetime, codecs, csv
+import sys
+import getopt
+import csv
 
 if sys.version_info[0] < 3:
     import got
@@ -57,7 +59,7 @@ def main(argv):
             elif opt == '--lang':
                 tweetCriteria.lang = arg
 
-        outputFile = csv.writer(open(outputFileName, "w", encoding='utf-8-sig'), delimiter=',', quotechar='"', quoting=csv.QUOTE_ALL)
+        outputFile = csv.writer(open(outputFileName, "w", encoding='utf-8-sig', newline=''), delimiter=',', quotechar='"', quoting=csv.QUOTE_ALL)
 
         outputFile.writerow(
             # ['username','date','retweets','favorites','text','mentions','hashtags','id','permalink', 'emoji'])
@@ -74,7 +76,8 @@ def main(argv):
                     emoji = ' '.join(t.emojis)
                 else:
                     emoji = t.emojis
-                print(emoji)
+                # print(emoji)
+                # print(t.text)
                 for each in [t.username, t.date.strftime("%Y-%m-%d %H:%M"), t.retweets, t.favorites, t.text, t.geo, t.mentions, t.hashtags, t.id, t.permalink, emoji]:
                 # for each in [t.username, t.date.strftime("%Y-%m-%d %H:%M"), t.retweets, t.favorites, t.text, t.mentions, t.hashtags, t.id, t.permalink, emoji]:
                     # if type(each) is str:
@@ -85,7 +88,8 @@ def main(argv):
                     #     add_list.append(ch)
                     # else:
                     add_list.append(each)
-                print(add_list)
+                # print(add_list)
+                # print('\n\n\n\n')
                 outputFile.writerow(add_list)
             print('%d tweets saved on file...\n' % len(tweets))
 

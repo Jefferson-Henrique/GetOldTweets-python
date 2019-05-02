@@ -1,6 +1,17 @@
-import urllib.request, urllib.parse, urllib.error,urllib.request,urllib.error,urllib.parse,json,re,datetime,sys,http.cookiejar
-from .. import models
+import urllib.request
+import urllib.parse
+import urllib.error
+import urllib.request
+import urllib.error
+import urllib.parse
+import json
+import re
+import datetime
+import sys
+import http.cookiejar
 from pyquery import PyQuery
+from bs4 import BeautifulSoup
+from .. import models
 
 class TweetManager:
 
@@ -41,7 +52,24 @@ class TweetManager:
                     usernameTweet = uTweet.split(' ')[0]
                 else:
                     usernameTweet = uTweet
-                txt = re.sub(r"\s+", " ", tweetPQ("p.js-tweet-text").text().replace('# ', '#').replace('@ ', '@'))
+                emojis = []
+                i = 0
+                for emoji in tweetPQ("p.js-tweet-text img"):
+                    try:
+                        em = emoji.attrib["alt"]
+                        emojis.append(em)
+                    except KeyError:
+                        pass
+                textScrap = tweetPQ("div.js-tweet-text-container p.js-tweet-text")
+                text = textScrap.html()
+                while(re.search(r'<img.*?alt=\"(.*?)\"[^\>]+>', text, flags=re.IGNORECASE)):
+                    # replacing img with emojis
+                    text = re.sub(r'<img.*?alt=\"(.*?)\"[^\>]+>', emojis[i], text, re.UNICODE)
+                    i+=1
+                    # print(text + '\n')
+                # html tags to python string using beautifulsoup
+                text = str(BeautifulSoup(text, features='lxml').get_text()).replace('\n', ' ')
+                # text = text.replace('\n', ' ')
                 retweets = int(tweetPQ("span.ProfileTweet-action--retweet span.ProfileTweet-actionCount").attr("data-tweet-stat-count").replace(",", ""))
                 favorites = int(tweetPQ("span.ProfileTweet-action--favorite span.ProfileTweet-actionCount").attr("data-tweet-stat-count").replace(",", ""))
                 dateSec = int(tweetPQ("small.time span.js-short-timestamp").attr("data-time"))
@@ -59,17 +87,11 @@ class TweetManager:
                         urls.append((link.attrib["data-expanded-url"]))
                     except KeyError:
                         pass
-                emojis = []
-                for emoji in tweetPQ("p.js-tweet-text img"):
-                    try:
-                        emojis.append(emoji.attrib["alt"])
-                    except KeyError:
-                        pass
                 tweet.id = id
                 tweet.permalink = 'https://twitter.com' + permalink
                 tweet.username = usernameTweet
 
-                tweet.text = txt
+                tweet.text = text
                 tweet.date = datetime.datetime.fromtimestamp(dateSec)
                 tweet.formatted_date = datetime.datetime.fromtimestamp(dateSec).strftime("%a %b %d %X +0000 %Y")
                 tweet.retweets = retweets
