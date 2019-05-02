@@ -1,12 +1,14 @@
-# Get Old Tweets Programatically
-A project written in Python to get old tweets, it bypass some limitations of Twitter Official API.
+# Get Old Tweets Programmatically
+This is an updated project forked from [Jefferson-Henrique/GetOldTweets-python](https://github.com/Jefferson-Henrique/GetOldTweets-python)
 
-## Details
-Twitter Official API has the bother limitation of time constraints, you can't get older tweets than a week. Some tools provide access to older tweets but in the most of them you have to spend some money before.
-I was searching other tools to do this job but I didn't found it, so after analyze how Twitter Search through browser works I understand its flow. Basically when you enter on Twitter page a scroll loader starts, if you scroll down you start to get more and more tweets, all through calls to a JSON provider. After mimic we get the best advantage of Twitter Search on browsers, it can search the deepest oldest tweets.
+This readme will be updated again, as i haven't much time to update this readme for now on.
+
+A project written in Python to get old tweets. It bypass some limitations of Twitter Official API.
 
 ## Prerequisites
-This package assumes using Python 2.x. The Python3 "got3" folder is maintained as experimental and is not officially supported.
+This package assumes you are using Python 2.x.
+
+I'm updating and trying to maintain the Python 3 package. You can use it on "got3" folder.
 
 Expected package dependencies are listed in the "requirements.txt" file for PIP, you need to run the following command to get dependencies:
 ```
@@ -83,9 +85,9 @@ pip install -r requirements.txt
 ```
     python Exporter.py --username "barackobama" --maxtweets 1
 ```    
-- Get tweets by query search
+- Get tweets by query search and specific languages
 ```
-    python Exporter.py --querysearch "europe refugees" --maxtweets 1
+    python Exporter.py --querysearch "Receh" --maxtweets 1 --lang "id"
 ```    
 - Get tweets by username and bound dates
 ```
