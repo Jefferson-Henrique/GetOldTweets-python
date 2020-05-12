@@ -56,7 +56,8 @@ class TweetManager:
 						pass
 				tweet.id = id
 				tweet.permalink = 'https://twitter.com' + permalink
-				tweet.username = usernameTweet
+				#tweet.username = usernameTweet
+				tweet.username = tweet.username = re.split('/', permalink)[1]
 				
 				tweet.text = txt
 				tweet.date = datetime.datetime.fromtimestamp(dateSec)
@@ -93,6 +94,8 @@ class TweetManager:
 		urlGetData = ''
 		if hasattr(tweetCriteria, 'username'):
 			urlGetData += ' from:' + tweetCriteria.username
+		if hasattr(tweetCriteria, 'near'):
+			urlGetData += "&near:" + tweetCriteria.near + " within:" + tweetCriteria.within
 			
 		if hasattr(tweetCriteria, 'since'):
 			urlGetData += ' since:' + tweetCriteria.since
