@@ -13,13 +13,13 @@ def main(argv):
 
 	if len(argv) == 1 and argv[0] == '-h':
 		f = open('exporter_help_text.txt', 'r')
-		print f.read()
+		print(f.read())
 		f.close()
 
 		return
 
 	try:
-		opts, args = getopt.getopt(argv, "", ("username=", "near=", "within=", "since=", "until=", "querysearch=", "toptweets", "maxtweets=", "output="))
+		opts, args = getopt.getopt(argv, "", ("not_containing=","min_retweets=","min_replies=","min_likes=","username=", "near=", "within=", "since=", "until=", "querysearch=", "toptweets", "maxtweets=", "output=", "nolinks", "lang="))
 
 		tweetCriteria = got.manager.TweetCriteria()
 		outputFileName = "output_got.csv"
@@ -42,6 +42,24 @@ def main(argv):
 
 			elif opt == '--maxtweets':
 				tweetCriteria.maxTweets = int(arg)
+
+			elif opt == '--nolinks':
+				tweetCriteria.noLinks = True
+			
+			elif opt == '--lang':
+				tweetCriteria.lang = arg
+
+			elif opt == '--min_likes':
+				tweetCriteria.min_likes = arg
+
+			elif opt == '--min_replies':
+				tweetCriteria.min_replies = arg
+
+			elif opt == '--min_retweets':
+				tweetCriteria.min_retweets = arg
+
+			elif opt == '--not_containing':
+				tweetCriteria.not_containing = arg
 			
 			elif opt == '--near':
 				tweetCriteria.near = '"' + arg + '"'
