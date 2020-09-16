@@ -35,7 +35,7 @@ class TweetManager:
 				tweetPQ = PyQuery(tweetHTML)
 				tweet = models.Tweet()
 				
-				usernameTweet = tweetPQ("span.username.js-action-profile-name b").text()
+				usernameTweet = tweetPQ("span:first.username.u-dir b").text()
 				txt = re.sub(r"\s+", " ", tweetPQ("p.js-tweet-text").text().replace('# ', '#').replace('@ ', '@'))
 				retweets = int(tweetPQ("span.ProfileTweet-action--retweet span.ProfileTweet-actionCount").attr("data-tweet-stat-count").replace(",", ""))
 				favorites = int(tweetPQ("span.ProfileTweet-action--favorite span.ProfileTweet-actionCount").attr("data-tweet-stat-count").replace(",", ""))
@@ -89,7 +89,7 @@ class TweetManager:
 	@staticmethod
 	def getJsonReponse(tweetCriteria, refreshCursor, cookieJar, proxy):
 		url = "https://twitter.com/i/search/timeline?f=tweets&q=%s&src=typd&%smax_position=%s"
-		
+		args = ''
 		urlGetData = ''
 		if hasattr(tweetCriteria, 'username'):
 			urlGetData += ' from:' + tweetCriteria.username
@@ -102,12 +102,34 @@ class TweetManager:
 			
 		if hasattr(tweetCriteria, 'querySearch'):
 			urlGetData += ' ' + tweetCriteria.querySearch
+
+		if hasattr(tweetCriteria, 'noLinks'):
+			urlGetData += ' -filter:links'
+
+		if hasattr(tweetCriteria, 'min_retweets'):
+			urlGetData += ' min_retweets:' + tweetCriteria.min_retweets
+
+		if hasattr(tweetCriteria, 'min_likes'):
+			urlGetData += ' min_faves:' + tweetCriteria.min_likes
+		
+		if hasattr(tweetCriteria, 'min_replies'):
+			urlGetData += ' min_replies:' + tweetCriteria.min_replies
+		
+		if hasattr(tweetCriteria, 'not_containing'):
+			lsts = tweetCriteria.not_containing.split()
+
+			for word in lsts:
+				urlGetData += ' -' + word
 			
 		if hasattr(tweetCriteria, 'lang'):
-			urlLang = 'lang=' + tweetCriteria.lang + '&'
-		else:
-			urlLang = ''
-		url = url % (urllib.parse.quote(urlGetData), urlLang, refreshCursor)
+			#args = 'lang=' + tweetCriteria.lang + '&'
+			urlGetData += ' lang:' + tweetCriteria.lang
+		#else:
+
+		#if not hasattr(tweetCriteria, 'topTweets'):
+			#args = ' f=live'
+
+		url = url % (urllib.parse.quote(urlGetData), args, refreshCursor)
 		#print(url)
 
 		headers = [
@@ -119,7 +141,7 @@ class TweetManager:
 			('Referer', url),
 			('Connection', "keep-alive")
 		]
-
+		#print(url)
 		if proxy:
 			opener = urllib.request.build_opener(urllib.request.ProxyHandler({'http': proxy, 'https': proxy}), urllib.request.HTTPCookieProcessor(cookieJar))
 		else:

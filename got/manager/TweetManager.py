@@ -96,9 +96,32 @@ class TweetManager:
 		
 		if hasattr(tweetCriteria, 'since'):
 			urlGetData += ' since:' + tweetCriteria.since
+		
+		if hasattr(tweetCriteria, 'noLinks'):
+			urlGetData += ' -filter:links'
 			
 		if hasattr(tweetCriteria, 'until'):
 			urlGetData += ' until:' + tweetCriteria.until
+
+		if hasattr(tweetCriteria, 'min_retweets'):
+			urlGetData += ' min_retweets:' + tweetCriteria.min_retweets
+
+		if hasattr(tweetCriteria, 'min_likes'):
+			urlGetData += ' min_faves:' + tweetCriteria.min_likes
+		
+		if hasattr(tweetCriteria, 'min_replies'):
+			urlGetData += ' min_replies:' + tweetCriteria.min_replies
+		
+		if hasattr(tweetCriteria, 'not_containing'):
+			lsts = tweetCriteria.not_containing.split()
+
+			for word in lsts:
+				urlGetData += ' -' + word
+			
+		if hasattr(tweetCriteria, 'lang'):
+			#args = 'lang=' + tweetCriteria.lang + '&'
+			urlGetData += ' lang:' + tweetCriteria.lang
+		#else:
 		
 
 		if hasattr(tweetCriteria, 'topTweets'):

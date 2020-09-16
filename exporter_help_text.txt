@@ -6,8 +6,14 @@ To use this script you can pass the following attributes:
         near: A reference location area from where tweets were generated
       within: A distance radius from "near" location (e.g. 15mi)
    maxtweets: The maximum number of tweets to retrieve
-   toptweets: Only the tweets provided as top tweets by Twitter (no parameters required)
+   toptweets: Only the tweets provided as top tweets by Twitter (no parameters required) not working on python3
       output: A filename to export the results (default is "output_got.csv")
+     nolinks: Only tweets without links
+        lang: Languge of the tweets (needs to be abreviated, example english: lang="en")
+   min_likes: Minmum number of likes
+min_retweets: Minimum number of retweets
+ min_replies: Minimum number of replies
+not_containing: Word that should not be in the tweet
 
 Examples:
 # Example 1 - Get tweets by username [barackobama]
@@ -21,3 +27,6 @@ python Exporter.py --username "barackobama" --since 2015-09-10 --until 2015-09-1
 
 # Example 4 - Get the last 10 top tweets by username
 python Exporter.py --username "barackobama" --maxtweets 10 --toptweets
+
+# Example 5 - Get 100 tweets with bound dates, in english, without links, with at least 5 retweets and not containing the word "giveaway" 
+python3 Exporter.py --querysearch "europe" --since 2015-09-11 --until 2015-09-12 --lang "en" --maxtweets 100 --nolinks --min_retweets 5 --not_containing "giveaway"
