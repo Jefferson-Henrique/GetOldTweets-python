@@ -141,7 +141,7 @@ class TweetManager:
 			('Referer', url),
 			('Connection', "keep-alive")
 		]
-		print(url)
+		#print(url)
 		if proxy:
 			opener = urllib.request.build_opener(urllib.request.ProxyHandler({'http': proxy, 'https': proxy}), urllib.request.HTTPCookieProcessor(cookieJar))
 		else:
