@@ -34,7 +34,7 @@ jobs:
           action: exec
           additional_args: --partial --log-level=DEBUG
           api_token: ${{ secrets.BOOST_API_TOKEN }}
-          exec_command: docker run -v %CWD%:/src returntocorp/semgrep:0.58.2 --disable-version-check --no-rewrite-rule-ids -q --sarif --config /src/.github/rules/insecure-hash.yaml
+          exec_command: docker run -v %CWD%:/src returntocorp/semgrep:0.58.2 --disable-version-check --no-rewrite-rule-ids -q --sarif --config /src/.github/rules/custom-rule.yaml
   complete_scan:
     name: Complete Scan
     needs: [scan_job, semgrep_job]
