@@ -1,0 +1,49 @@
+on:
+  workflow_dispatch:
+  push:
+    branches:
+        - master
+  pull_request:
+    branches:
+      - master
+    types:
+      - opened
+      - synchronize
+jobs:
+  scan_job:
+    name: Boost Security Scanner
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: BoostSecurity Scanner
+        uses: peaudecastor/boost-security-scanner-github@v2
+        with:
+          action: scan
+          additional_args: --partial
+          api_token: ${{ secrets.BOOST_API_TOKEN }}
+  semgrep_job:
+    name: Semgrep Rules
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Semgrep Scanner
+        uses: peaudecastor/boost-security-scanner-github@v2
+        with:
+          action: exec
+          additional_args: --partial --log-level=DEBUG
+          api_token: ${{ secrets.BOOST_API_TOKEN }}
+          exec_command: docker run -v %CWD%:/src returntocorp/semgrep:0.58.2 --disable-version-check --no-rewrite-rule-ids -q --sarif --config /src/.github/rules/insecure-hash.yaml
+  complete_scan:
+    name: Complete Scan
+    needs: [scan_job, semgrep_job]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Complete Scan
+        uses: peaudecastor/boost-security-scanner-github@v2
+        with:
+          action: complete
+          api_token: ${{ secrets.BOOST_API_TOKEN }}

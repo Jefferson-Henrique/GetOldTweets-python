@@ -1,0 +1,10 @@
+rules:
+- id: insecure-hash-algorithm-md5
+  pattern: hashlib.md5(...)
+  message: |
+    Detected MD5 hash algorithm which is considered insecure. MD5 is not
+    collision resistant and is therefore not suitable as a cryptographic
+    signature. Use SHA256 or SHA3 instead.
+  severity: WARNING
+  languages:
+  - python
