@@ -57,14 +57,14 @@ def main(argv):
 				
 		outputFile = codecs.open(outputFileName, "w+", "utf-8")
 
-		outputFile.write('username;date;retweets;favorites;text;geo;mentions;hashtags;id;permalink')
+		outputFile.write('username;date;retweets;favorites;text;emojis;geo;mentions;hashtags;id;permalink')
 
 		print('Searching...\n')
 
 		def receiveBuffer(tweets):
 			for t in tweets:
-				outputFile.write(('\n%s;%s;%d;%d;"%s";%s;%s;%s;"%s";%s' % (t.username, t.date.strftime("%Y-%m-%d %H:%M"), t.retweets, t.favorites, t.text, t.geo, t.mentions, t.hashtags, t.id, t.permalink)))
-			outputFile.flush()
+        outputFile.write(('\n%s;%s;%d;%d;"%s";"%s";%s;%s;%s;"%s";%s' % (t.username, t.date.strftime("%Y-%m-%d %H:%M"), t.retweets, t.favorites, t.text, t.emojis, t.geo, t.mentions, t.hashtags, t.id, t.permalink)))
+			outputFile.flush();
 			print('More %d saved on file...\n' % len(tweets))
 
 		got.manager.TweetManager.getTweets(tweetCriteria, receiveBuffer)
