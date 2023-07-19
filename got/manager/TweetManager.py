@@ -25,8 +25,11 @@ class TweetManager:
 			if len(json['items_html'].strip()) == 0:
 				break
 
-			refreshCursor = json['min_position']			
-			tweets = PyQuery(json['items_html'])('div.js-stream-tweet')
+			refreshCursor = json['min_position']
+			scrapedTweets = PyQuery(json['items_html'])
+			#Remove incomplete tweets withheld by Twitter Guidelines
+			scrapedTweets.remove('div.withheld-tweet')
+			tweets = scrapedTweets('div.js-stream-tweet')
 			
 			if len(tweets) == 0:
 				break
@@ -35,13 +38,13 @@ class TweetManager:
 				tweetPQ = PyQuery(tweetHTML)
 				tweet = models.Tweet()
 				
-				usernameTweet = tweetPQ("span:first.username.u-dir b").text();
-				txt = re.sub(r"\s+", " ", tweetPQ("p.js-tweet-text").text().replace('# ', '#').replace('@ ', '@'));
-				retweets = int(tweetPQ("span.ProfileTweet-action--retweet span.ProfileTweet-actionCount").attr("data-tweet-stat-count").replace(",", ""));
-				favorites = int(tweetPQ("span.ProfileTweet-action--favorite span.ProfileTweet-actionCount").attr("data-tweet-stat-count").replace(",", ""));
-				dateSec = int(tweetPQ("small.time span.js-short-timestamp").attr("data-time"));
-				id = tweetPQ.attr("data-tweet-id");
-				permalink = tweetPQ.attr("data-permalink-path");
+				usernameTweet = tweetPQ("span:first.username.u-dir b").text()
+				txt = re.sub(r"\s+", " ", tweetPQ("p.js-tweet-text").text().replace('# ', '#').replace('@ ', '@'))
+				retweets = int(tweetPQ("span.ProfileTweet-action--retweet span.ProfileTweet-actionCount").attr("data-tweet-stat-count").replace(",", ""))
+				favorites = int(tweetPQ("span.ProfileTweet-action--favorite span.ProfileTweet-actionCount").attr("data-tweet-stat-count").replace(",", ""))
+				dateSec = int(tweetPQ("small.time span.js-short-timestamp").attr("data-time"))
+				id = tweetPQ.attr("data-tweet-id")
+				permalink = tweetPQ.attr("data-permalink-path")
 				
 				emojisTxt = ''
 				emojis = tweetPQ("p.js-tweet-text img.Emoji");				
@@ -90,7 +93,7 @@ class TweetManager:
 	@staticmethod
 	def getJsonReponse(tweetCriteria, refreshCursor, cookieJar, proxy):
 		url = "https://twitter.com/i/search/timeline?f=tweets&q=%s&src=typd&max_position=%s"
-		
+
 		urlGetData = ''
 		
 		if hasattr(tweetCriteria, 'username'):
@@ -114,12 +117,11 @@ class TweetManager:
 				url = "https://twitter.com/i/search/timeline?q=%s&src=typd&max_position=%s"
 		
 		
-		
-		url = url % (urllib.quote(urlGetData), refreshCursor)
+		url = url % (urllib.quote(urlGetData), urllib.quote(refreshCursor))
 
 		headers = [
 			('Host', "twitter.com"),
-			('User-Agent', "Mozilla/5.0 (Windows NT 6.1; Win64; x64)"),
+			('User-Agent', "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36"),
 			('Accept', "application/json, text/javascript, */*; q=0.01"),
 			('Accept-Language', "de,en-US;q=0.7,en;q=0.3"),
 			('X-Requested-With', "XMLHttpRequest"),
